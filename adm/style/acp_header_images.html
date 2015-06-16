@@ -1,0 +1,155 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_ACP_CHI_TITLE}</h1>
+
+<p>{L_ACP_CHI_DESC}</p>
+
+<!-- IF S_SELECT_SETTINGS -->
+
+<form method="post" action="{U_ACTION}">
+	<fieldset>
+		<legend>{L_ACP_CHI_TITLE}</legend>
+		<dl>
+			<dt><label for="chi_enable">{L_ACP_CHI_ENABLE}</label></dt>
+			<dd><input type="radio" class="radio" name="chi_enable" value="1" <!-- IF CHI_ENABLE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+				<input type="radio" class="radio" name="chi_enable" value="0" <!-- IF not CHI_ENABLE -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+		</dl>
+		<dl>
+			<dt><label for="chi_enable_guests">{L_ACP_CHI_ENABLE_GUESTS}</label></dt>
+			<dd><input type="radio" class="radio" name="chi_enable_guests" value="1" <!-- IF CHI_ENABLE_GUESTS -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
+				<input type="radio" class="radio" name="chi_enable_guests" value="0" <!-- IF not CHI_ENABLE_GUESTS -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+		</dl>
+	</fieldset>
+	<fieldset class="submit-buttons">
+		<legend>{L_SUBMIT}</legend>
+		<input class="button1" id="submit" name="submit_settings" value="{L_SUBMIT}" type="submit" />&nbsp;
+		<input class="button2" id="reset" name="reset" value="{L_RESET}" type="reset" />
+		{S_FORM_TOKEN}
+	</fieldset>
+</form>
+
+<!-- ENDIF -->
+
+<!-- IF S_SELECT_FORUMS -->
+
+	<table cellspacing="1">
+		<thead>
+		<tr>
+			<th>{L_ACP_CHI_FORUMNAME}</th>
+			<th>{L_CHI_LOGO}</th>
+			<th>{L_CHI_BACKGROUND}</th>
+			<th>{L_ACTION}</th>
+		</tr>
+		</thead>
+		<tbody>
+		<!-- BEGIN customheaderimages_forum -->
+			<!-- IF customheaderimages_forum.S_ROW_COUNT is even --><tr class="row1"><!-- ELSE --><tr class="row2"><!-- ENDIF -->
+			<td>{customheaderimages_forum.FORUMNAME} </td>
+			<td>{customheaderimages_forum.LOGO} </td>
+			<td>{customheaderimages_forum.BACKGROUND}</td>
+			<td>&nbsp;<a href="{customheaderimages_forum.U_EDIT}">{ICON_EDIT}</a> <a href="{customheaderimages_forum.U_DEL}">{ICON_DELETE}</a>&nbsp;</td>
+		</tr>
+		<!-- BEGINELSE -->
+		<tr class="row3">
+			<td colspan="4">{L_ACP_NO_ITEMS}</td>
+		</tr>
+		<!-- END customheaderimages_forum -->
+		</tbody>
+	</table>
+	<form method="post" action="{U_ACTION}">
+
+		<fieldset>
+		<legend>{L_MODE_TITLE} {L_CHI_TITLE_FORUM}</legend>
+		<input type="hidden" name="id" value="{ID}" />
+		<dl>
+			<dt><label for="forum">{L_LOOK_UP_FORUM}{L_COLON}</label><br /><span>{L_CHI_FORUM_DESC}</span></dt>
+			<dd><select id="forum" name="forum_id[]" size="10">{S_FORUM_OPTIONS}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="logoimage">{L_CHI_LOGO}:</label><br /><span>{L_CHI_LOGO_DESC}</span></dt>
+			<dd><select id="logoimage" name="logoimage">{S_LOGO_LIST}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="backgroundimage">{L_CHI_BACKGROUND}{L_COLON}</label><br /><span>{L_CHI_BACKGROUND_DESC}</span></dt>
+			<dd><select id="backgroundimage" name="backgroundimage">{S_BACKGROUND_LIST}</select></dd>
+		</dl>
+		</fieldset>
+
+		<fieldset class="submit-buttons">
+			<legend>{L_SUBMIT}</legend>
+			<input class="button1" id="submit" name="submit_forum" value="{L_SUBMIT}" type="submit" />&nbsp;
+			<input class="button2" id="reset" name="reset" value="{L_RESET}" type="reset" />
+			{S_FORM_TOKEN}
+		</fieldset>
+	</form>
+
+<!-- ENDIF -->
+
+<!-- IF S_SELECT_CUSTOMPAGE -->
+
+	<table cellspacing="1">
+		<thead>
+		<tr>
+			<th>{L_CHI_PAGENAME}</th>
+			<th>{L_CHI_PATH}</th>
+			<th>{L_CHI_QUERY}</th>
+			<th>{L_CHI_LOGO}</th>
+			<th>{L_CHI_BACKGROUND}</th>
+			<th>{L_ACTION}</th>
+		</tr>
+		</thead>
+		<tbody>
+		<!-- BEGIN customheaderimages -->
+			<!-- IF customheaderimages.S_ROW_COUNT is even --><tr class="row1"><!-- ELSE --><tr class="row2"><!-- ENDIF -->
+			<td>{customheaderimages.PAGENAME} </td>
+			<td>{customheaderimages.PATH} </td>
+			<td>{customheaderimages.QUERY} </td>
+			<td>{customheaderimages.LOGO} </td>
+			<td>{customheaderimages.BACKGROUND}</td>
+			<td>&nbsp;<a href="{customheaderimages.U_EDIT}">{ICON_EDIT}</a> <a href="{customheaderimages.U_DEL}">{ICON_DELETE}</a>&nbsp;</td>
+		</tr>
+		<!-- BEGINELSE -->
+		<tr class="row3">
+			<td colspan="6">{L_ACP_NO_ITEMS}</td>
+		</tr>
+		<!-- END customheaderimages -->
+		</tbody>
+	</table>
+
+	<form method="post" action="{U_ACTION}">
+	<fieldset>
+		<legend>{L_MODE_TITLE} {L_CHI_TITLE_PAGE}</legend>
+		<input type="hidden" name="id" value="{ID}" />
+		<dl>
+			<dt><label for="pagename">{L_CHI_PAGENAME}{L_COLON}</label><br /><span>{L_CHI_PAGENAME_DESC}</span></dt>
+			<dd><input type="text" id="pagename" name="pagename" size="35" value="{PAGENAME}" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="custom_page_path">{L_CHI_PATH}{L_COLON}</label><br /><span>{L_CHI_PATH_DESC}</span></dt>
+			<dd><input type="text" id="custom_page_path" name="custom_page_path" size="35" value="{PATH}" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="custom_page_query">{L_CHI_QUERY}{L_COLON}</label><br /><span>{L_CHI_QUERY_DESC}</span></dt>
+			<dd><input type="text" id="custom_page_query" name="custom_page_query" size="35" value="{QUERY}" /></dd>
+		</dl>
+		<dl>
+			<dt><label for="logoimage">{L_CHI_LOGO}{L_COLON}</label><br /><span>{L_CHI_LOGO_DESC}</span></dt>
+			<dd><select id="logoimage" name="logoimage">{S_LOGO_LIST}</select></dd>
+		</dl>
+		<dl>
+			<dt><label for="backgroundimage">{L_CHI_BACKGROUND}{L_COLON}</label><br /><span>{L_CHI_BACKGROUND_DESC}</span></dt>
+			<dd><select id="backgroundimage" name="backgroundimage">{S_BACKGROUND_LIST}</select></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="submit-buttons">
+		<legend>{L_SUBMIT}</legend>
+		<input class="button1" id="submit" name="submit_page" value="{L_SUBMIT}" type="submit" />&nbsp;
+		<input class="button2" id="reset" name="reset" value="{L_RESET}" type="reset" />
+		{S_FORM_TOKEN}
+	</fieldset>
+	</form>
+	<br />
+<!-- ENDIF -->
+
+<!-- INCLUDE overall_footer.html -->
