@@ -64,7 +64,6 @@ class listener implements EventSubscriberInterface
 	{
 		if ($this->config['chi_enable'] && ($this->config['chi_enable_guests'] && empty($this->user->data['is_registered']) || !empty($this->user->data['is_registered'])))
 		{
-
 			$post = $this->request->get_super_global(\phpbb\request\request::REQUEST);
 			// Are we in a forum, topic or a posting page with logo/bg logo?
 			if ((($this->user->page['page_name'] == "viewforum.$this->phpEx") || ($this->user->page['page_name'] == "viewtopic.$this->phpEx") || ($this->user->page['page_name'] == "posting.$this->phpEx")) && !empty($post['f']) && !is_array($post['f']))
@@ -86,20 +85,19 @@ class listener implements EventSubscriberInterface
 				$sql_where = "page_name = '" . $this->db->sql_escape(str_replace('.' . $this->phpEx, '', $this->user->page['page_name'])) . "' AND page_path = '" . $this->user->page['page_dir'] . "' AND forum_id = 0";
 
 				$sql = 'SELECT page_logo, page_background_logo, page_query
-				 FROM ' . $this->header_images_table . "
-				 WHERE $sql_where
-				 ORDER BY page_query DESC, page_path DESC";
-
+					FROM ' . $this->header_images_table . "
+					WHERE $sql_where
+					ORDER BY page_query DESC, page_path DESC";
 				$result = $this->db->sql_query($sql);
 
 				while ($row = $this->db->sql_fetchrow($result))
 				{
-				 if (stripos($this->user->page['query_string'],$row['page_query']) !== false || $row['page_query'] == '*' || $row['page_query'] == $this->user->page['query_string'])
-				 {
-					$site_logo_custom = $row['page_logo'];
-					$header_background_custom = $row['page_background_logo'];
-					break;
-				 }
+					if (stripos($this->user->page['query_string'],$row['page_query']) !== false || $row['page_query'] == '*' || $row['page_query'] == $this->user->page['query_string'])
+					{
+						$site_logo_custom = $row['page_logo'];
+						$header_background_custom = $row['page_background_logo'];
+						break;
+					}
 				}
 				$this->db->sql_freeresult($result);
 			}
@@ -118,7 +116,6 @@ class listener implements EventSubscriberInterface
 		$this->template->assign_vars(array(
 			'SITE_LOGO_IMG'		=> $site_logo,
 			'SITE_BG_IMG'			=> $site_background_logo,
-			));
-
+		));
 	}
 }

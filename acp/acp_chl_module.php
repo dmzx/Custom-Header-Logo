@@ -11,7 +11,6 @@ namespace dmzx\chl\acp;
 
 class acp_chl_module
 {
-
 	public $u_action;
 
 	function main($id, $mode)
@@ -64,7 +63,6 @@ class acp_chl_module
 				// Load the display options handle in the admin controller
 				$admin_controller->display_settings();
 			break;
-
 		}
 	}
 }

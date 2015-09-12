@@ -105,7 +105,6 @@ class admin_controller
 				{
 					trigger_error($this->user->lang['CHI_NEED_FORUM'] . adm_back_link($this->u_action), E_USER_WARNING);
 				}
-
 				else
 				{
 					$this->db->sql_query('INSERT INTO ' . $this->header_images_table	. ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
@@ -126,7 +125,7 @@ class admin_controller
 
 				$this->template->assign_vars(array(
 					'ID'			=> $row['page_header_image_id'],
-					));
+				));
 
 				$this->db->sql_freeresult($result);
 
@@ -180,7 +179,6 @@ class admin_controller
 					)));
 				}
 			break;
-
 		}
 
 		//
@@ -202,7 +200,6 @@ class admin_controller
 				'BACKGROUND'	=> $row['page_background_logo'],
 				'U_EDIT'		=> $this->u_action . '&amp;action=edit&amp;id=' .$row['page_header_image_id'],
 				'U_DEL'			=> $this->u_action . '&amp;action=delete&amp;id=' .$row['page_header_image_id'],
-
 			));
 		}
 		$this->db->sql_freeresult($result);
@@ -264,7 +261,6 @@ class admin_controller
 
 		//Make SQL Array
 		$sql_ary = array(
-
 			'page_name'				=> $pagename,
 			'page_logo'				=> $logoimage,
 			'page_background_logo'	=> $backgroundimage,
@@ -316,7 +312,7 @@ class admin_controller
 					'PAGENAME'		=> $row['page_name'],
 					'PATH'			=> $row['page_path'],
 					'QUERY'			=> $row['page_query'],
-					));
+				));
 			break;
 
 			// Update Page
@@ -355,7 +351,6 @@ class admin_controller
 					)));
 				}
 			break;
-
 		}
 
 		//
@@ -377,7 +372,6 @@ class admin_controller
 				'BACKGROUND'	=> $row['page_background_logo'],
 				'U_EDIT'		=> $this->u_action . '&amp;action=edit&amp;id=' .$row['page_header_image_id'],
 				'U_DEL'			=> $this->u_action . '&amp;action=delete&amp;id=' .$row['page_header_image_id'],
-
 			));
 		}
 		$this->db->sql_freeresult($result);
@@ -444,9 +438,7 @@ class admin_controller
 			'CHI_ENABLE'					=> $this->config['chi_enable'],
 			'CHI_ENABLE_GUESTS'				=> $this->config['chi_enable_guests'],
 			'S_SELECT_SETTINGS'				=> true,
-
 		));
-
 	}
 
 	/**
