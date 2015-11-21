@@ -7,14 +7,34 @@
 *
 */
 
+/**
+* DO NOT CHANGE
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
 }
+
 if (empty($lang) || !is_array($lang))
 {
 	$lang = array();
 }
+
+// DEVELOPERS PLEASE NOTE
+//
+// All language files should use UTF-8 as their encoding and the files must not contain a BOM.
+//
+// Placeholders can now contain order information, e.g. instead of
+// 'Page %s of %s' you can (and should) write 'Page %1$s of %2$s', this allows
+// translators to re-order the output of data while ensuring it remains correct
+//
+// You do not need this where single placeholders are used, e.g. 'Message %d' is fine
+// equally where a string contains only two placeholders which are used to wrap text
+// in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
+//
+// Some characters you may want to copy&paste:
+// ’ » “ ” …
+//
 
 $lang = array_merge($lang, array(
 	'FORUM_LOGO' 						=> 'Forum logo',
@@ -25,7 +45,6 @@ $lang = array_merge($lang, array(
 	'BACKGROUND_PATH'					=> 'Forum header background image storage path',
 	'BACKGROUND_PATH_EXPLAIN' 			=> 'Path under your phpBB root directory, e.g. <samp>images/backgrounds</samp>.',
 	'NO_BACKGROUND_LOGO' 				=> 'No custom background image',
-
 	'CHI_TITLE_ADD'						=> 'Add a new',
 	'CHI_TITLE_EDIT'					=> 'Edit a',
 	'CHI_TITLE_PAGE'					=> 'pair of page and logo/header background image',
@@ -34,7 +53,6 @@ $lang = array_merge($lang, array(
 	'CHI_NEED_FORUM'					=> 'At least a forum and logo or header background image is needed',
 	'CHI_FORUM_FORBIDDEN'				=> 'You cannot add forums here, please use the other page to match a forum or category to a logo!',
 	'CHI_ADDED'							=> 'Custom Logo entry added',
-
 	'CHI_UPDATED'						=> 'Entry updated',
 	'CHI_DELETED'						=> 'Entry deleted',
 	'CHI_REALY_DELETE'					=> 'Really delete entry?',
@@ -49,20 +67,15 @@ $lang = array_merge($lang, array(
 	'CHI_PATH_DESC'						=> 'Enter the path to the script - e.g. "gallery" (optional)',
 	'CHI_QUERY'							=> 'Page Query',
 	'CHI_QUERY_DESC'					=> 'Enter the query after the script name - e.g. "mode=leaders" or "*" to display entry regardless of a set query string (optional). Query strings precede the "*". You don\'t have to enter the complete query string, the script will evaluate parts too.',
-
 	'ACP_CHI_DESC_FORUMS'				=> 'Here you can add, edit and delete custom header logos and header background images for your categories and forums.',
 	'ACP_CHI_DESC_PAGES'				=> 'Here you can add, edit and delete custom header logos and header background images for your custom pages.',
 	'ACP_CHI_FORUMNAME'					=> 'Forum/category name',
-
 	'ACP_CHI_DESC_SETTINGS'				=> 'Here you can configure various basic settings for the Custom Header Images extension.',
 	'ACP_CHI_ENABLE'					=> 'Enable Custom Header Images?',
 	'ACP_CHI_ENABLE_GUESTS'				=> 'Enable Custom Header Images for guests?',
 	'ACP_CHI_INCLUDE_SUBFORUMS'			=> 'If a logo/header background is defined, use it for subforums too?',
-
 	'ACP_CHI_TITLE'						=> 'Custom header images',
 	'ACP_CHI_FORUMS_TITLE'				=> 'Forums &amp; categories logo assignment',
 	'ACP_CHI_PAGES_TITLE'				=> 'Custom page logo assignment',
 	'ACP_CHI_SETTINGS_TITLE'			=> 'Basic settings',
-
 ));
-

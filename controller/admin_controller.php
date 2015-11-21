@@ -16,36 +16,63 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class admin_controller
 {
-	protected $header_images_table;
-
+	/** @var \phpbb\config\config */
 	protected $config;
 
+	/** @var \phpbb\template\template */
 	protected $template;
 
+	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\request\request */
 	protected $request;
 
+	/** @var \phpbb\extension\manager */
+	protected $phpbb_extension_manager;
+
+	/** @var string */
 	protected $phpbb_root_path;
 
+	/** @var string */
 	protected $phpEx;
 
-	protected $table_prefix;
+	/**
+	* The database table
+	*
+	* @var string
+	*/
+	protected $header_images_table;
 
-	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\log\log_interface $log, $phpbb_root_path, $phpEx, $table_prefix, $header_images_table)
+	/**
+	* Constructor
+	*
+	* @param \phpbb\config\config				$config
+	* @param \phpbb\template\template		 	$template
+	* @param \phpbb\user						$user
+	* @param \phpbb\db\driver\driver_interface	$db
+	* @param \phpbb\request\request		 		$request
+	* @param \phpbb\extension\manager 			$phpbb_extension_manager
+	* @param string 							$phpbb_root_path
+	* @param string 							$phpEx
+	* @param string 							$header_images_table
+	*
+	*/
+
+	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\extension\manager $phpbb_extension_manager, $phpbb_root_path, $phpEx, $header_images_table)
 	{
-		$this->config = $config;
-		$this->template = $template;
-		$this->user = $user;
-		$this->db = $db;
-		$this->request = $request;
-		$this->phpbb_root_path = $phpbb_root_path;
-		$this->phpEx = $phpEx;
-		$this->phpbb_log = $log;
-		$this->table_prefix = $table_prefix;
-		$this->header_images_table = $header_images_table;
+		$this->config 				= $config;
+		$this->template 			= $template;
+		$this->user 				= $user;
+		$this->db 					= $db;
+		$this->request 				= $request;
+		$this->phpbb_extension_manager 	= $phpbb_extension_manager;
+		$this->phpbb_root_path 		= $phpbb_root_path;
+		$this->phpEx 				= $phpEx;
+		$this->header_images_table 	= $header_images_table;
 	}
 
 	/**
@@ -243,6 +270,40 @@ class admin_controller
 			'S_SELECT_FORUMS'	=> true,
 			'S_FORUM_OPTIONS'	=> $forums_list,
 		));
+
+		// Version check
+		$this->user->add_lang(array('install', 'acp/extensions', 'migrator'));
+		$ext_name = 'dmzx/chl';
+		$md_manager = new \phpbb\extension\metadata_manager($ext_name, $this->config, $this->phpbb_extension_manager, $this->template, $this->user, $this->phpbb_root_path);
+		try
+		{
+			$this->metadata = $md_manager->get_metadata('all');
+		}
+		catch(\phpbb\extension\exception $e)
+		{
+			trigger_error($e, E_USER_WARNING);
+		}
+		$md_manager->output_template_data();
+		try
+		{
+			$updates_available = $this->version_check($md_manager, $this->request->variable('versioncheck_force', false));
+			$this->template->assign_vars(array(
+				'S_UP_TO_DATE'		=> empty($updates_available),
+				'S_VERSIONCHECK'	=> true,
+				'UP_TO_DATE_MSG'	=> $this->user->lang(empty($updates_available) ? 'UP_TO_DATE' : 'NOT_UP_TO_DATE', $md_manager->get_metadata('display-name')),
+			));
+			foreach ($updates_available as $branch => $version_data)
+			{
+				$this->template->assign_block_vars('updates_available', $version_data);
+			}
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->template->assign_vars(array(
+				'S_VERSIONCHECK_STATUS'			=> $e->getCode(),
+				'VERSIONCHECK_FAIL_REASON'		=> ($e->getMessage() !== $this->user->lang('VERSIONCHECK_FAIL')) ? $e->getMessage() : '',
+			));
+		}
 	}
 
 	public function display_pages()
@@ -414,6 +475,40 @@ class admin_controller
 			'S_BACKGROUND_LIST' 	=> $logo_list_bg,
 			'S_SELECT_CUSTOMPAGE'	=> true,
 		));
+
+		// Version check
+		$this->user->add_lang(array('install', 'acp/extensions', 'migrator'));
+		$ext_name = 'dmzx/chl';
+		$md_manager = new \phpbb\extension\metadata_manager($ext_name, $this->config, $this->phpbb_extension_manager, $this->template, $this->user, $this->phpbb_root_path);
+		try
+		{
+			$this->metadata = $md_manager->get_metadata('all');
+		}
+		catch(\phpbb\extension\exception $e)
+		{
+			trigger_error($e, E_USER_WARNING);
+		}
+		$md_manager->output_template_data();
+		try
+		{
+			$updates_available = $this->version_check($md_manager, $this->request->variable('versioncheck_force', false));
+			$this->template->assign_vars(array(
+				'S_UP_TO_DATE'		=> empty($updates_available),
+				'S_VERSIONCHECK'	=> true,
+				'UP_TO_DATE_MSG'	=> $this->user->lang(empty($updates_available) ? 'UP_TO_DATE' : 'NOT_UP_TO_DATE', $md_manager->get_metadata('display-name')),
+			));
+			foreach ($updates_available as $branch => $version_data)
+			{
+				$this->template->assign_block_vars('updates_available', $version_data);
+			}
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->template->assign_vars(array(
+				'S_VERSIONCHECK_STATUS'			=> $e->getCode(),
+				'VERSIONCHECK_FAIL_REASON'		=> ($e->getMessage() !== $this->user->lang('VERSIONCHECK_FAIL')) ? $e->getMessage() : '',
+			));
+		}
 	}
 
 	public function display_settings()
@@ -439,6 +534,56 @@ class admin_controller
 			'CHI_ENABLE_GUESTS'				=> $this->config['chi_enable_guests'],
 			'S_SELECT_SETTINGS'				=> true,
 		));
+
+		// Version check
+		$this->user->add_lang(array('install', 'acp/extensions', 'migrator'));
+		$ext_name = 'dmzx/chl';
+		$md_manager = new \phpbb\extension\metadata_manager($ext_name, $this->config, $this->phpbb_extension_manager, $this->template, $this->user, $this->phpbb_root_path);
+		try
+		{
+			$this->metadata = $md_manager->get_metadata('all');
+		}
+		catch(\phpbb\extension\exception $e)
+		{
+			trigger_error($e, E_USER_WARNING);
+		}
+		$md_manager->output_template_data();
+		try
+		{
+			$updates_available = $this->version_check($md_manager, $this->request->variable('versioncheck_force', false));
+			$this->template->assign_vars(array(
+				'S_UP_TO_DATE'		=> empty($updates_available),
+				'S_VERSIONCHECK'	=> true,
+				'UP_TO_DATE_MSG'	=> $this->user->lang(empty($updates_available) ? 'UP_TO_DATE' : 'NOT_UP_TO_DATE', $md_manager->get_metadata('display-name')),
+			));
+			foreach ($updates_available as $branch => $version_data)
+			{
+				$this->template->assign_block_vars('updates_available', $version_data);
+			}
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->template->assign_vars(array(
+				'S_VERSIONCHECK_STATUS'			=> $e->getCode(),
+				'VERSIONCHECK_FAIL_REASON'		=> ($e->getMessage() !== $this->user->lang('VERSIONCHECK_FAIL')) ? $e->getMessage() : '',
+			));
+		}
+	}
+
+	protected function version_check(\phpbb\extension\metadata_manager $md_manager, $force_update = false, $force_cache = false)
+	{
+		global $cache;
+		$meta = $md_manager->get_metadata('all');
+		if (!isset($meta['extra']['version-check']))
+		{
+			throw new \RuntimeException($this->user->lang('NO_VERSIONCHECK'), 1);
+		}
+		$version_check = $meta['extra']['version-check'];
+		$version_helper = new \phpbb\version_helper($cache, $this->config, new \phpbb\file_downloader(), $this->user);
+		$version_helper->set_current_version($meta['version']);
+		$version_helper->set_file_location($version_check['host'], $version_check['directory'], $version_check['filename']);
+		$version_helper->force_stability($this->config['extension_force_unstable'] ? 'unstable' : null);
+		return $updates = $version_helper->get_suggested_updates($force_update, $force_cache);
 	}
 
 	/**

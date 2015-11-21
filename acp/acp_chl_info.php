@@ -17,9 +17,9 @@ class acp_chl_info
 			'filename'	=> '\dmzx\chl\acp\acp_chl_module',
 			'title'		=> 'ACP_CHI_TITLE',
 			'modes'		=> array(
-				'settings'	=> array('title'	=> 'ACP_CHI_SETTINGS_TITLE',	'auth'	=> '', 'cat'	=> array('ACP_BOARD_CONFIGURATION')),
-				'forums'	=> array('title'	=> 'ACP_CHI_FORUMS_TITLE',	'auth'	=> '', 'cat'	=> array('ACP_BOARD_CONFIGURATION')),
-				'pages'		=> array('title'	=> 'ACP_CHI_PAGES_TITLE',	'auth'	=> '', 'cat'	=> array('ACP_BOARD_CONFIGURATION')),
+				'settings'	=> array('title'	=> 'ACP_CHI_SETTINGS_TITLE',	'auth'	=> 'ext_dmzx/chl && acl_a_board', 'cat'	=> array('ACP_BOARD_CONFIGURATION')),
+				'forums'	=> array('title'	=> 'ACP_CHI_FORUMS_TITLE',		'auth'	=> 'ext_dmzx/chl && acl_a_board', 'cat'	=> array('ACP_BOARD_CONFIGURATION')),
+				'pages'		=> array('title'	=> 'ACP_CHI_PAGES_TITLE',		'auth'	=> 'ext_dmzx/chl && acl_a_board', 'cat'	=> array('ACP_BOARD_CONFIGURATION')),
 			),
 		);
 	}
