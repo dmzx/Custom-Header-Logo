@@ -17,7 +17,7 @@ class chl_schema extends \phpbb\db\migration\migration
 			'add_tables'	=> array(
 				$this->table_prefix . 'header_images'	=> array(
 					'COLUMNS'	=> array(
-					'page_header_image_id' 	=> array('UINT', NULL, 'auto_increment'),
+					'page_header_image_id' 	=> array('UINT', null, 'auto_increment'),
 					'page_name' 			=> array('VCHAR', ''),
 					'forum_id' 				=> array('UINT', 0),
 					'page_logo' 			=> array('VCHAR', ''),
@@ -40,3 +40,4 @@ class chl_schema extends \phpbb\db\migration\migration
 		);
 	}
 }
+

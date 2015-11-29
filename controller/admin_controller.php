@@ -9,8 +9,6 @@
 
 namespace dmzx\chl\controller;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 /**
 * Admin controller
 */
@@ -598,3 +596,4 @@ class admin_controller
 		$this->u_action = $u_action;
 	}
 }
+

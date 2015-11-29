@@ -66,3 +66,4 @@ class acp_chl_module
 		}
 	}
 }
+

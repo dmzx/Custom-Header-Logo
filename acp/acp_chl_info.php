@@ -10,10 +10,10 @@
 namespace dmzx\chl\acp;
 
 class acp_chl_info
- {
+{
 	function module()
 	{
-		 return array(
+		return array(
 			'filename'	=> '\dmzx\chl\acp\acp_chl_module',
 			'title'		=> 'ACP_CHI_TITLE',
 			'modes'		=> array(
@@ -24,3 +24,4 @@ class acp_chl_info
 		);
 	}
 }
+
