@@ -24,4 +24,3 @@ class acp_chl_info
 		);
 	}
 }
-

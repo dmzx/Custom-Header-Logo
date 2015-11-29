@@ -86,5 +86,3 @@ $lang = array_merge($lang, array(
 	'ACP_CHI_SETTINGS_TITLE'			=> 'Grundinställningar',
 
 ));
-
-

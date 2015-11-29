@@ -79,4 +79,3 @@ $lang = array_merge($lang, array(
 	'ACP_CHI_PAGES_TITLE'				=> 'Custom page logo assignment',
 	'ACP_CHI_SETTINGS_TITLE'			=> 'Basic settings',
 ));
-

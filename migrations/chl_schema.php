@@ -40,4 +40,3 @@ class chl_schema extends \phpbb\db\migration\migration
 		);
 	}
 }
-
