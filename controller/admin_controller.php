@@ -240,7 +240,7 @@ class admin_controller
 			{
 				$img = $path . $img;
 				$selected = ($action == 'edit' && $img == $page_logo_selected) ? ' selected="selected"' : '';
-				$logo_list .= '<option value="' . htmlspecialchars($img) . '"' . $selected . '>' . htmlspecialchars($img) . '</option>';
+				$logo_list .= '<option value="' . utf8_htmlspecialchars($img) . '"' . $selected . '>' . utf8_htmlspecialchars($img) . '</option>';
 			}
 		}
 		$imglist_bg = filelist($this->phpbb_root_path . 'ext/dmzx/chl/images/backgrounds', '');
@@ -254,7 +254,7 @@ class admin_controller
 			{
 				$img = $path . $img;
 				$selected = ($action == 'edit' && $img == $page_background_selected) ? ' selected="selected"' : '';
-				$logo_list_bg .= '<option value="' . htmlspecialchars($img) . '"' . $selected . '>' . htmlspecialchars($img) . '</option>';
+				$logo_list_bg .= '<option value="' . utf8_htmlspecialchars($img) . '"' . $selected . '>' . utf8_htmlspecialchars($img) . '</option>';
 			}
 		}
 
@@ -446,7 +446,7 @@ class admin_controller
 			{
 				$img = $path . $img;
 				$selected = ($action == 'edit' && $img == $page_logo_selected) ? ' selected="selected"' : '';
-				$logo_list .= '<option value="' . htmlspecialchars($img) . '"' . $selected . '>' . htmlspecialchars($img) . '</option>';
+				$logo_list .= '<option value="' . utf8_htmlspecialchars($img) . '"' . $selected . '>' . utf8_htmlspecialchars($img) . '</option>';
 			}
 		}
 		$imglist_bg = filelist($this->phpbb_root_path . 'ext/dmzx/chl/images/backgrounds', '');
@@ -460,7 +460,7 @@ class admin_controller
 			{
 				$img = $path . $img;
 				$selected = ($action == 'edit' && $img == $page_background_selected) ? ' selected="selected"' : '';
-				$logo_list_bg .= '<option value="' . htmlspecialchars($img) . '"' . $selected . '>' . htmlspecialchars($img) . '</option>';
+				$logo_list_bg .= '<option value="' . utf8_htmlspecialchars($img) . '"' . $selected . '>' . utf8_htmlspecialchars($img) . '</option>';
 			}
 		}
 
