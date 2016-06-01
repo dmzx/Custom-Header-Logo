@@ -4,25 +4,25 @@ services:
     dmzx.chl.listener:
         class: dmzx\chl\event\listener
         arguments:
-            - @config
-            - @template
-            - @user
-            - @dbal.conn
-            - @request
-            - %core.root_path%
-            - %core.php_ext%
-            - %dmzx.chl.table.header_images%
+            - '@config'
+            - '@template'
+            - '@user'
+            - '@dbal.conn'
+            - '@request'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%dmzx.chl.table.header_images%'
         tags:
             - { name: event.listener }
     dmzx.chl.admin.controller:
         class: dmzx\chl\controller\admin_controller
         arguments:
-            - @config
-            - @template
-            - @user
-            - @dbal.conn
-            - @request
-            - @ext.manager
-            - %core.root_path%
-            - %core.php_ext%
-            - %dmzx.chl.table.header_images%
+            - '@config'
+            - '@template'
+            - '@user'
+            - '@dbal.conn'
+            - '@request'
+            - '@log'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%dmzx.chl.table.header_images%'

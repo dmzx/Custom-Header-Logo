@@ -22,7 +22,12 @@ class chl_module extends \phpbb\db\migration\migration
 			array('module.add', array('acp', 'ACP_CAT_DOT_MODS', 'ACP_CHI_TITLE')),
 			array('module.add', array(
 				'acp', 'ACP_CHI_TITLE', array(
-				'module_basename'	=> '\dmzx\chl\acp\acp_chl_module', 'modes'	=> array('settings', 'forums', 'pages'),
+					'module_basename'	=> '\dmzx\chl\acp\acp_chl_module',
+					'modes'	=> array(
+						'settings',
+						'forums',
+						'pages'
+					),
 				),
 			)),
 		);

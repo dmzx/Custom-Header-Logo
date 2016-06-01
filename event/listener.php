@@ -60,8 +60,7 @@ class listener implements EventSubscriberInterface
 	* @param string 							$header_images_table
 	*
 	*/
-
-	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $request, $phpbb_root_path, $phpEx, $header_images_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, $phpbb_root_path, $phpEx, $header_images_table)
 	{
 		$this->config 				= $config;
 		$this->template 			= $template;
@@ -76,8 +75,19 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
+			'core.user_setup'			=> 'load_language_on_setup',
 			'core.page_header_after'	=> 'add_page_header_link',
 		);
+	}
+
+	public function load_language_on_setup($event)
+	{
+		$lang_set_ext = $event['lang_set_ext'];
+		$lang_set_ext[] = array(
+			'ext_name' => 'dmzx/chl',
+			'lang_set' => 'common',
+		);
+		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
 	public function add_page_header_link($event)
@@ -89,15 +99,15 @@ class listener implements EventSubscriberInterface
 		{
 			if ($this->config['chi_enable'] && ($this->config['chi_enable_guests'] && empty($this->user->data['is_registered']) || !empty($this->user->data['is_registered'])))
 			{
-				$post = $this->request->get_super_global(\phpbb\request\request::REQUEST);
+				$post = $this->request->is_set('f');
 				// Are we in a forum, topic or a posting page with logo/bg logo?
-				if ((($this->user->page['page_name'] == "viewforum.$this->phpEx") || ($this->user->page['page_name'] == "viewtopic.$this->phpEx") || ($this->user->page['page_name'] == "posting.$this->phpEx")) && !empty($post['f']) && !is_array($post['f']))
+				if ((($this->user->page['page_name'] == "viewforum.$this->phpEx") || ($this->user->page['page_name'] == "viewtopic.$this->phpEx") || ($this->user->page['page_name'] == "posting.$this->phpEx")) && !empty($post) && !is_array($post))
 				{
 					$forum_id = $this->request->variable('f', 0);
 					$sql = 'SELECT page_logo, page_background_logo
 						FROM ' . $this->header_images_table . '
 						WHERE forum_id = ' . (int) $forum_id;
-					$result = $this->db->sql_query($sql);
+					$result = $this->db->sql_query($sql, 60);
 					$forum_logo = $this->db->sql_fetchrow($result);
 					$this->db->sql_freeresult($result);
 					$site_logo_custom = $forum_logo['page_logo'];
@@ -107,13 +117,15 @@ class listener implements EventSubscriberInterface
 				// Are we on a page where we defined a logo and/or header background image?
 				if ($this->user->page['page_name'] != "viewforum.$this->phpEx")
 				{
-					$sql_where = "page_name = '" . $this->db->sql_escape(str_replace('.' . $this->phpEx, '', $this->user->page['page_name'])) . "' AND page_path = '" . $this->user->page['page_dir'] . "' AND forum_id = 0";
+					$sql_where = "page_name = '" . $this->db->sql_escape(str_replace('.' . $this->phpEx, '', $this->user->page['page_name'])) . "'
+						AND page_path = '" . $this->db->sql_escape($this->user->page['page_dir']) . "'
+						AND forum_id = 0";
 
 					$sql = 'SELECT page_logo, page_background_logo, page_query
 						FROM ' . $this->header_images_table . "
 						WHERE $sql_where
 						ORDER BY page_query DESC, page_path DESC";
-					$result = $this->db->sql_query($sql);
+					$result = $this->db->sql_query($sql, 60);
 
 					while ($row = $this->db->sql_fetchrow($result))
 					{
@@ -130,17 +142,17 @@ class listener implements EventSubscriberInterface
 				// Create the link(s)
 				if (!empty($site_logo_custom))
 				{
-					$site_logo = '<img src="' . $this->phpbb_root_path . 'ext/dmzx/chl/images/logos/' . $site_logo_custom . '" alt="" title="" />';
+					$site_logo = '<img src="' . $this->phpbb_root_path . 'images/chl_logos/' . $site_logo_custom . '" alt="" title="" />';
 				}
 				if (!empty($header_background_custom))
 				{
-					$site_background_logo = $this->phpbb_root_path . 'ext/dmzx/chl/images/backgrounds/' . $header_background_custom;
+					$site_background_logo = $this->phpbb_root_path . 'images/chl_backgrounds/' . $header_background_custom;
 				}
 			}
 		}
 		$this->template->assign_vars(array(
 			'SITE_LOGO_IMG'		=> $site_logo,
-			'SITE_BG_IMG'			=> $site_background_logo,
+			'SITE_BG_IMG'		=> $site_background_logo,
 		));
 	}
 }

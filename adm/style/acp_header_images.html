@@ -1,38 +1,5 @@
-<!-- INCLUDECSS css/chlacp.css -->
 <!-- INCLUDE overall_header.html -->
-<h1 class="ExtensionName"><!-- IF META_DISPLAY_NAME -->{META_DISPLAY_NAME}<!-- ENDIF --></h1>
-<!-- IF S_VERSIONCHECK && S_UP_TO_DATE -->
-	<div class="description_bubble small_bubble" title="{UP_TO_DATE_MSG}">
-		<span class="description_name">{L_VERSION}</span>
-		<span class="description_value description_value_ok" id="meta_version">{META_VERSION}</span>
-	</div>
-	<!-- ELSE IF S_VERSIONCHECK && not S_UP_TO_DATE -->
-	<div class="description_bubble small_bubble" title="{UP_TO_DATE_MSG}">
-		<span class="description_name">{L_VERSION}</span>
-		<span class="description_value description_value_old" id="meta_version">{META_VERSION}</span>
-	</div>
-	<!-- ELSE -->
-	<div class="description_bubble small_bubble">
-		<span class="description_name">{L_VERSION}</span>
-		<span class="description_value" id="meta_version">{META_VERSION}</span>
-	</div>
-<!-- ENDIF -->
-<!-- IF S_VERSIONCHECK && not S_UP_TO_DATE -->
-	<!-- BEGIN updates_available -->
-		<fieldset>
-			<span class="requirements_title">{L_LATEST_VERSION}</span>
-			<div class="extension_latest_version_wrapper">
-				<strong class="extension_latest_version">{updates_available.current}</strong>
-				<!-- IF updates_available.download-->
-				<a href="{updates_available.download}" class="extension_author_link" title="{L_DOWNLOAD_LATEST}">{L_DOWNLOAD} {META_NAME} {LATEST_VERSION}</i></a>
-				<!-- ENDIF -->
-				<!-- IF updates_available.announcement -->
-				<a href="{updates_available.announcement}" class="extension_author_link" title="{L_ANNOUNCEMENT_TOPIC}">{L_RELEASE_ANNOUNCEMENT}</i></a>
-				<!-- ENDIF -->
-			</div>
-		</fieldset>
-	<!-- END updates_available -->
-<!-- ENDIF -->
+<h1>{L_ACP_CHI_TITLE}</h1>
 
 <p>{L_ACP_CHI_DESC}</p>
 
@@ -95,14 +62,14 @@
 		<input type="hidden" name="id" value="{ID}" />
 		<dl>
 			<dt><label for="forum">{L_LOOK_UP_FORUM}{L_COLON}</label><br /><span>{L_CHI_FORUM_DESC}</span></dt>
-			<dd><select id="forum" name="forum_id[]" size="10">{S_FORUM_OPTIONS}</select></dd>
+			<dd><select id="forum" name="forum_id" size="10">{S_FORUM_OPTIONS}</select></dd>
 		</dl>
 		<dl>
-			<dt><label for="logoimage">{L_CHI_LOGO}{L_COLON}</label><br /><span>{L_CHI_LOGO_DESC}</span></dt>
+			<dt><label for="logoimage">{L_CHI_LOGO}{L_COLON}</label><br /><span>{L_CHI_LOGO_DESC}</span><br /><em><span>{L_LOGO_PATH_EXPLAIN}</span></em></dt>
 			<dd><select id="logoimage" name="logoimage">{S_LOGO_LIST}</select></dd>
 		</dl>
 		<dl>
-			<dt><label for="backgroundimage">{L_CHI_BACKGROUND}{L_COLON}</label><br /><span>{L_CHI_BACKGROUND_DESC}</span></dt>
+			<dt><label for="backgroundimage">{L_CHI_BACKGROUND}{L_COLON}</label><br /><span>{L_CHI_BACKGROUND_DESC}</span><br /><em><span>{L_BACKGROUND_PATH_EXPLAIN}</span></em></dt>
 			<dd><select id="backgroundimage" name="backgroundimage">{S_BACKGROUND_LIST}</select></dd>
 		</dl>
 		</fieldset>
@@ -165,11 +132,11 @@
 			<dd><input type="text" id="custom_page_query" name="custom_page_query" size="35" value="{QUERY}" /></dd>
 		</dl>
 		<dl>
-			<dt><label for="logoimage">{L_CHI_LOGO}{L_COLON}</label><br /><span>{L_CHI_LOGO_DESC}</span></dt>
+			<dt><label for="logoimage">{L_CHI_LOGO}{L_COLON}</label><br /><span>{L_CHI_LOGO_DESC}</span><br /><em><span>{L_LOGO_PATH_EXPLAIN}</span></em></dt>
 			<dd><select id="logoimage" name="logoimage">{S_LOGO_LIST}</select></dd>
 		</dl>
 		<dl>
-			<dt><label for="backgroundimage">{L_CHI_BACKGROUND}{L_COLON}</label><br /><span>{L_CHI_BACKGROUND_DESC}</span></dt>
+			<dt><label for="backgroundimage">{L_CHI_BACKGROUND}{L_COLON}</label><br /><span>{L_CHI_BACKGROUND_DESC}</span><br /><em><span>{L_BACKGROUND_PATH_EXPLAIN}</span></em></dt>
 			<dd><select id="backgroundimage" name="backgroundimage">{S_BACKGROUND_LIST}</select></dd>
 		</dl>
 	</fieldset>

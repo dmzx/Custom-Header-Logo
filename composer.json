@@ -3,9 +3,13 @@
 	"type": "phpbb-extension",
 	"description": "Custom Header Logo displays logos and background images in the header. This can changed for all forums and categories independently.",
 	"homepage": "http://www.dmzx-web.net",
-	"version": "1.0.1",
-	"time": "2015-06-16",
-	"keywords": ["phpbb", "extension", "chl"],
+	"version": "1.0.3",
+	"time": "2016-06-01",
+	"keywords": [
+		"phpbb",
+		"extension",
+		"chl"
+	],
 	"license": "GPL-2.0",
 	"authors": [
 		{
@@ -16,7 +20,8 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3.3"
+		"php": ">=5.3.3",
+		"phpbb/phpbb": "3.1.*"
 	},
 	"require-dev": {
 		"phpbb/epv": "dev-master"
@@ -27,9 +32,9 @@
 			"phpbb/phpbb": "3.1.*"
 		},
 		"version-check": {
-			"host": "www.dmzx-web.net",
-			"directory": "/versions",
-			"filename": "chl_version.json"
+			"host": "www.phpbb.com",
+			"directory": "/customise/db/extension/custom_header_logo",
+			"filename": "version_check"
 		}
 	}
 }
