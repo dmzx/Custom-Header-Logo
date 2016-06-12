@@ -159,10 +159,10 @@ class admin_controller
 				$page_background_selected = $row['page_background_logo'];
 				$forum_id = $row['forum_id'];
 
-				foreach($disabled_ids as $key => $value)
+				foreach ($disabled_ids as $key => $value)
 				{
-					if($value == $forum_id) {
-						unset($disabled_ids[$key]);
+					if ($value == $forum_id) {
+						unset ($disabled_ids[$key]);
 					}
 				}
 
