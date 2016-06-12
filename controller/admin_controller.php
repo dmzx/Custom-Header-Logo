@@ -161,7 +161,7 @@ class admin_controller
 
 				foreach ($disabled_ids as $key => $value)
 				{
-					if ($value == $forum_id) 
+					if ($value == $forum_id)
 					{
 						unset ($disabled_ids[$key]);
 					}
