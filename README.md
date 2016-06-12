@@ -1,5 +1,7 @@
 # Custom Header Logo Extension
 
+[![Build Status](https://travis-ci.org/dmzx/Custom-Header-Logo.svg?branch=master)](https://travis-ci.org/dmzx/Custom-Header-Logo)
+
 ## Install
 
 1. Download the latest release.
