@@ -17,6 +17,11 @@
 			"homepage": "http://www.dmzx-web.net",
 			"email": "info@dmzx-web.net",
 			"role": "Extension Developer"
+		},
+		{
+			"name": "Balint",
+			"homepage": "http://www.krizsan.de",
+			"role": "Original MOD author"
 		}
 	],
 	"require": {
