@@ -9,7 +9,6 @@ services:
             - '@user'
             - '@dbal.conn'
             - '@request'
-            - '%core.root_path%'
             - '%core.php_ext%'
             - '%dmzx.chl.table.header_images%'
         tags:

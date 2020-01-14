@@ -1,0 +1,24 @@
+#dmzx_chi {
+	font-size: 1.1em;
+	background-color: #ecd5d8;
+	border-radius: 7px;
+	margin: 10px 0;
+	padding: 10px;
+	box-shadow: 0 0 4px #000000;
+	text-align: center;
+}
+
+#dmzx_chi div {
+	font-size: 1.1em;
+	line-height: 1.5em;
+	overflow-x: auto;
+	overflow: hidden;
+	margin: 0;
+}
+
+#dmzx_chi .postimage {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	max-width: 100%;
+}

@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - Custom Header Logo
-* @copyright (c) 2015 dmzx - http://www.dmzx-web.net
+* @copyright (c) 2018 dmzx - https://www.dmzx-web.net
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -40,10 +40,10 @@ $lang = array_merge($lang, array(
 	'FORUM_LOGO' 						=> 'Forum logo',
 	'NO_LOGO' 							=> 'No custom logo',
 	'LOGO_PATH' 						=> 'Forum logos storage path',
-	'LOGO_PATH_EXPLAIN' 				=> 'Path under your phpBB root directory, e.g. <samp>images/logos</samp>.',
+	'LOGO_PATH_EXPLAIN' 				=> 'Path under your phpBB root directory, e.g. <samp>images/chl_logos</samp>.',
 	'FORUM_BACKGROUND'					=> 'Forum header background',
 	'BACKGROUND_PATH'					=> 'Forum header background image storage path',
-	'BACKGROUND_PATH_EXPLAIN' 			=> 'Path under your phpBB root directory, e.g. <samp>images/backgrounds</samp>.',
+	'BACKGROUND_PATH_EXPLAIN' 			=> 'Path under your phpBB root directory, e.g. <samp>images/chl_backgrounds</samp>.',
 	'NO_BACKGROUND_LOGO' 				=> 'No custom background image',
 	'CHI_TITLE_ADD'						=> 'Add a new',
 	'CHI_TITLE_EDIT'					=> 'Edit a',
@@ -72,7 +72,13 @@ $lang = array_merge($lang, array(
 	'ACP_CHI_DESC_PAGES'				=> 'Here you can add, edit and delete custom header logos and header background images for your custom pages.',
 	'ACP_CHI_FORUMNAME'					=> 'Forum/category name',
 	'ACP_CHI_DESC_SETTINGS'				=> 'Here you can configure various basic settings for the Custom Header Images extension.',
-	'ACP_CHI_ENABLE'					=> 'Enable Custom Header Images?',
-	'ACP_CHI_ENABLE_GUESTS'				=> 'Enable Custom Header Images for guests?',
+	'ACP_CHI_ENABLE'					=> 'Enable Custom Header Images',
+	'ACP_CHI_ENABLE_GUESTS'				=> 'Enable Custom Header Images for guests',
 	'ACP_CHI_INCLUDE_SUBFORUMS'			=> 'If a logo/header background is defined, use it for subforums too?',
+	'ACP_CHI_WIDTH_SET'					=> 'Set logo width',
+	'ACP_CHI_WIDTH_SET_EXPLAIN'			=> 'Set logo width in pixels.',
+	'ACP_CHI_HEIGHT_SET'				=> 'Set logo height',
+	'ACP_CHI_HEIGHT_SET_EXPLAIN'		=> 'Set logo height in pixels.',
+	'ACP_CHI_SHOWPAGENAME'				=> 'Set show page name',
+	'ACP_CHI_SHOWPAGENAME_EXPLAIN'		=> 'If enabled message is shown with page name.<br />Admin can see only. "Enable Custom Header Images" must be set to Yes.<br />Not visible in viewforum and viewtopic.',
 ));

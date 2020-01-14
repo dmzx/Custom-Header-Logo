@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - Custom Header Logo
-* @copyright (c) 2015 dmzx - http://www.dmzx-web.net
+* @copyright (c) 2018 dmzx - https://www.dmzx-web.net
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -33,7 +33,6 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 
 $lang = array_merge($lang, array(
-	'ACP_CHI_TITLE'						=> 'Custom header images',
 	'ACP_CHI_FORUMS_TITLE'				=> 'Forums &amp; categories logo assignment',
 	'ACP_CHI_PAGES_TITLE'				=> 'Custom page logo assignment',
 	'ACP_CHI_SETTINGS_TITLE'			=> 'Basic settings',

@@ -1,2 +1,2 @@
 parameters:
-     dmzx.chl.table.header_images:     %core.table_prefix%header_images
+     dmzx.chl.table.header_images: '%core.table_prefix%header_images'

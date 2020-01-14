@@ -2,16 +2,13 @@
 /**
 *
 * @package phpBB Extension - Custom Header Logo
-* @copyright (c) 2015 dmzx - http://www.dmzx-web.net
+* @copyright (c) 2018 dmzx - https://www.dmzx-web.net
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
 
 namespace dmzx\chl\controller;
 
-/**
-* Admin controller
-*/
 class admin_controller
 {
 	/** @var \phpbb\config\config */
@@ -33,10 +30,10 @@ class admin_controller
 	protected $log;
 
 	/** @var string */
-	protected $phpbb_root_path;
+	protected $root_path;
 
 	/** @var string */
-	protected $phpEx;
+	protected $php_ext;
 
 	/**
 	* The database table
@@ -54,12 +51,22 @@ class admin_controller
 	* @param \phpbb\db\driver\driver_interface	$db
 	* @param \phpbb\request\request		 		$request
 	* @param \phpbb\log\log_interface			$log
-	* @param string 							$phpbb_root_path
-	* @param string 							$phpEx
+	* @param string 							$root_path
+	* @param string 							$php_ext
 	* @param string 							$header_images_table
 	*
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\log\log_interface $log, $phpbb_root_path, $phpEx, $header_images_table)
+	public function __construct(
+		\phpbb\config\config $config,
+		\phpbb\template\template $template,
+		\phpbb\user $user,
+		\phpbb\db\driver\driver_interface $db,
+		\phpbb\request\request $request,
+		\phpbb\log\log_interface $log,
+		$root_path,
+		$php_ext,
+		$header_images_table
+	)
 	{
 		$this->config 				= $config;
 		$this->template 			= $template;
@@ -67,17 +74,46 @@ class admin_controller
 		$this->db 					= $db;
 		$this->request 				= $request;
 		$this->log					= $log;
-		$this->phpbb_root_path 		= $phpbb_root_path;
-		$this->phpEx 				= $phpEx;
+		$this->root_path 			= $root_path;
+		$this->php_ext 				= $php_ext;
 		$this->header_images_table 	= $header_images_table;
 	}
 
-	/**
-	* Display the options a user can configure for this extension
-	*
-	* @return null
-	* @access public
-	*/
+	public function display_settings()
+	{
+		add_form_key('acp_header_images');
+
+		if ($this->request->is_set_post('submit_settings'))
+		{
+			if (!check_form_key('acp_header_images'))
+			{
+				trigger_error($this->user->lang['FORM_INVALID']);
+			}
+
+			$this->config->set('chi_enable', $this->request->variable('chi_enable', 0));
+			$this->config->set('chi_enable_guests', $this->request->variable('chi_enable_guests', 0));
+			$this->config->set('chi_width_set', $this->request->variable('chi_width_set', 0));
+			$this->config->set('chi_height_set', $this->request->variable('chi_height_set', 0));
+			$this->config->set('chi_showpagename', $this->request->variable('chi_showpagename', 0));
+
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_SETTINGS_UPDATED', false, array($this->user->data['username']));
+
+			trigger_error($this->user->lang['CHI_SETTINGS_UPDATED'] . adm_back_link($this->u_action));
+		}
+
+		$this->template->assign_vars(array(
+			'L_ACP_CHI_DESC'			=> $this->user->lang['ACP_CHI_DESC_SETTINGS'],
+			'L_ACP_CHI_TITLE'			=> $this->user->lang['ACP_CHI_SETTINGS_TITLE'],
+			'CHI_ENABLE'				=> $this->config['chi_enable'],
+			'CHI_ENABLE_GUESTS'			=> $this->config['chi_enable_guests'],
+			'CHI_WIDTH_SET'				=> $this->config['chi_width_set'],
+			'CHI_HEIGHT_SET'			=> $this->config['chi_height_set'],
+			'ACP_CHI_VERSION'			=> $this->config['chl_version'],
+			'CHI_SHOWPAGENAME'			=> $this->config['chi_showpagename'],
+			'S_SELECT_SETTINGS'			=> true,
+		));
+	}
+
 	public function display_forums()
 	{
 		add_form_key('acp_header_images');
@@ -93,7 +129,6 @@ class admin_controller
 
 		$lang_mode = $this->user->lang['CHI_TITLE_ADD'];
 
-		//Make SQL Array
 		$sql_ary = array(
 			'forum_id'				=> $forum_id,
 			'page_name'				=> '',
@@ -103,7 +138,6 @@ class admin_controller
 			'page_query'			=> '',
 		);
 
-		// Is there already an entry? Disable corresponding forum/category
 		$sql = 'SELECT forum_id
 			FROM ' . $this->header_images_table	. '
 			WHERE forum_id <> 0';
@@ -118,29 +152,27 @@ class admin_controller
 
 		switch ($action)
 		{
-			// Add Page
 			case 'add':
 
 				if (!check_form_key('acp_header_images'))
 				{
 					trigger_error($this->user->lang['FORM_INVALID']);
 				}
+
 				if (empty($forum_id) || ($logoimage == '' && $backgroundimage == '' ))
 				{
 					trigger_error($this->user->lang['CHI_NEED_FORUM'] . adm_back_link($this->u_action), E_USER_WARNING);
 				}
 				else
 				{
-					$this->db->sql_query('INSERT INTO ' . $this->header_images_table	. ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
+					$this->db->sql_query('INSERT INTO ' . $this->header_images_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 
-					// Add an entry into the log table
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_ADDED', false, array($this->user->data['username']));
 
 					trigger_error($this->user->lang['CHI_ADDED'] . adm_back_link($this->u_action));
 				}
 			break;
 
-			// Edit Page
 			case 'edit':
 
 				$form_action = $this->u_action. '&amp;action=update';
@@ -159,11 +191,11 @@ class admin_controller
 				$page_background_selected = $row['page_background_logo'];
 				$forum_id = $row['forum_id'];
 
-				foreach ($disabled_ids as $key => $value)
+				foreach($disabled_ids as $key => $value)
 				{
 					if ($value == $forum_id)
 					{
-						unset ($disabled_ids[$key]);
+						unset($disabled_ids[$key]);
 					}
 				}
 
@@ -171,12 +203,12 @@ class admin_controller
 
 			break;
 
-			// Update Page
 			case 'update':
 				if (!check_form_key('acp_header_images'))
 				{
 					trigger_error($this->user->lang['FORM_INVALID']);
 				}
+
 				if (empty($forum_id) || ($logoimage == '' && $backgroundimage == '' ))
 				{
 					trigger_error($this->user->lang['CHI_NEED_PAGE'] . adm_back_link($this->u_action . '&amp;action=edit&amp;id=' . $id), E_USER_WARNING);
@@ -185,14 +217,12 @@ class admin_controller
 				{
 					$this->db->sql_query('UPDATE ' . $this->header_images_table	. ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . ' WHERE page_header_image_id = ' . $id);
 
-					// Add an entry into the log table
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_UPDATED', false, array($this->user->data['username']));
 
 					trigger_error($this->user->lang['CHI_UPDATED'] . adm_back_link($this->u_action));
 				}
 			break;
 
-			// Delete Page
 			case 'delete':
 
 				if (confirm_box(true))
@@ -201,7 +231,6 @@ class admin_controller
 						WHERE page_header_image_id = ' . (int) $id;
 					$this->db->sql_query($sql);
 
-					// Add an entry into the log table
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_DELETED', false, array($this->user->data['username']));
 
 					trigger_error($this->user->lang['CHI_DELETED'] . adm_back_link($this->u_action));
@@ -216,10 +245,6 @@ class admin_controller
 			break;
 		}
 
-		//
-		// Start output the page
-		//
-		// List all Pages
 		$sql = 'SELECT hi.page_header_image_id, f.forum_name, hi.page_logo, hi.page_background_logo
 			FROM ' . $this->header_images_table	. ' hi
 			LEFT JOIN ' . FORUMS_TABLE . ' f
@@ -227,6 +252,7 @@ class admin_controller
 			WHERE hi.forum_id <> 0
 			ORDER BY left_id ASC';
 		$result = $this->db->sql_query($sql);
+
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$this->template->assign_block_vars('customheaderimages_forum', array(
@@ -239,7 +265,7 @@ class admin_controller
 		}
 		$this->db->sql_freeresult($result);
 
-		$imglist = filelist($this->phpbb_root_path . 'images/chl_logos', '');
+		$imglist = filelist($this->root_path . 'images/chl_logos', '');
 		$logo_list = '<option value="">' . $this->user->lang['NO_LOGO'] . '</option>';
 
 		foreach ($imglist as $path => $img_ary)
@@ -253,7 +279,7 @@ class admin_controller
 				$logo_list .= '<option value="' . utf8_htmlspecialchars($img) . '"' . $selected . '>' . utf8_htmlspecialchars($img) . '</option>';
 			}
 		}
-		$imglist_bg = filelist($this->phpbb_root_path . 'images/chl_backgrounds', '');
+		$imglist_bg = filelist($this->root_path . 'images/chl_backgrounds', '');
 		$logo_list_bg = '<option value="">' . $this->user->lang['NO_BACKGROUND_LOGO'] . '</option>';
 
 		foreach ($imglist_bg as $path => $img_ary)
@@ -278,7 +304,6 @@ class admin_controller
 			'S_SELECT_FORUMS'	=> true,
 			'S_FORUM_OPTIONS'	=> $forums_list,
 		));
-
 	}
 
 	public function display_pages()
@@ -295,7 +320,6 @@ class admin_controller
 		$custom_page_path = $this->request->variable('custom_page_path', '');
 		$custom_page_query = $this->request->variable('custom_page_query', '');
 
-		//Make SQL Array
 		$sql_ary = array(
 			'page_name'				=> $pagename,
 			'page_logo'				=> $logoimage,
@@ -306,13 +330,13 @@ class admin_controller
 
 		switch ($action)
 		{
-			// Add Page
 			case 'add':
 
 				if (!check_form_key('acp_header_images'))
 				{
 					trigger_error($this->user->lang['FORM_INVALID']);
 				}
+
 				if ($pagename == 'viewforum')
 				{
 					trigger_error($this->user->lang['CHI_FORUM_FORBIDDEN'] . adm_back_link($this->u_action), E_USER_WARNING);
@@ -324,16 +348,14 @@ class admin_controller
 				}
 				else
 				{
-					$this->db->sql_query('INSERT INTO ' . $this->header_images_table	.' ' . $this->db->sql_build_array('INSERT', $sql_ary));
+					$this->db->sql_query('INSERT INTO ' . $this->header_images_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 
-					// Add an entry into the log table
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_ADDED', false, array($this->user->data['username']));
 
 					trigger_error($this->user->lang['CHI_ADDED'] . adm_back_link($this->u_action));
 				}
 			break;
 
-			// Edit Page
 			case 'edit':
 
 				$form_action = $this->u_action. '&amp;action=update';
@@ -355,8 +377,8 @@ class admin_controller
 				));
 			break;
 
-			// Update Page
 			case 'update':
+
 				if (!check_form_key('acp_header_images'))
 				{
 					trigger_error($this->user->lang['FORM_INVALID']);
@@ -370,14 +392,12 @@ class admin_controller
 				{
 					$this->db->sql_query('UPDATE ' . $this->header_images_table	. ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . ' WHERE page_header_image_id = ' . $id);
 
-					// Add an entry into the log table
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_UPDATED', false, array($this->user->data['username']));
 
 					trigger_error($this->user->lang['CHI_UPDATED'] . adm_back_link($this->u_action));
 				}
 			break;
 
-			// Delete Page
 			case 'delete':
 
 				if (confirm_box(true))
@@ -386,7 +406,6 @@ class admin_controller
 						WHERE page_header_image_id = ' . (int) $id;
 					$this->db->sql_query($sql);
 
-					// Add an entry into the log table
 					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_DELETED', false, array($this->user->data['username']));
 
 					trigger_error($this->user->lang['CHI_DELETED'] . adm_back_link($this->u_action));
@@ -394,22 +413,19 @@ class admin_controller
 				else
 				{
 					confirm_box(false, $this->user->lang['CHI_REALY_DELETE'], build_hidden_fields(array(
-						'id'			=> $id,
+						'id'		=> $id,
 						'action'	=> 'delete',
 					)));
 				}
 			break;
 		}
 
-		//
-		// Start output the page
-		//
-		// List all Pages
 		$sql = 'SELECT *
 			FROM ' . $this->header_images_table	. '
 			WHERE forum_id = 0
 			ORDER by page_header_image_id';
 		$result = $this->db->sql_query($sql);
+
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$this->template->assign_block_vars('customheaderimages', array(
@@ -424,7 +440,7 @@ class admin_controller
 		}
 		$this->db->sql_freeresult($result);
 
-		$imglist = filelist($this->phpbb_root_path . 'images/chl_logos', '');
+		$imglist = filelist($this->root_path . 'images/chl_logos', '');
 		$logo_list = '<option value="">' . $this->user->lang['NO_LOGO'] . '</option>';
 
 		foreach ($imglist as $path => $img_ary)
@@ -438,7 +454,7 @@ class admin_controller
 				$logo_list .= '<option value="' . utf8_htmlspecialchars($img) . '"' . $selected . '>' . utf8_htmlspecialchars($img) . '</option>';
 			}
 		}
-		$imglist_bg = filelist($this->phpbb_root_path . 'images/chl_backgrounds', '');
+		$imglist_bg = filelist($this->root_path . 'images/chl_backgrounds', '');
 		$logo_list_bg = '<option value="">' . $this->user->lang['NO_BACKGROUND_LOGO'] . '</option>';
 
 		foreach ($imglist_bg as $path => $img_ary)
@@ -464,41 +480,6 @@ class admin_controller
 		));
 	}
 
-	public function display_settings()
-	{
-		add_form_key('acp_header_images');
-		$submit = (isset($_POST['submit_settings'])) ? true : false;
-		if ($submit)
-		{
-			if (!check_form_key('acp_header_images'))
-			{
-				trigger_error($this->user->lang['FORM_INVALID']);
-			}
-			$this->config->set('chi_enable', $this->request->variable('chi_enable', 0));
-			$this->config->set('chi_enable_guests', $this->request->variable('chi_enable_guests', 0));
-
-			// Add an entry into the log table
-			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_SETTINGS_UPDATED', false, array($this->user->data['username']));
-
-			trigger_error($this->user->lang['CHI_SETTINGS_UPDATED'] . adm_back_link($this->u_action));
-		}
-
-		$this->template->assign_vars(array(
-			'L_ACP_CHI_DESC'				=> $this->user->lang['ACP_CHI_DESC_SETTINGS'],
-			'L_ACP_CHI_TITLE'				=> $this->user->lang['ACP_CHI_SETTINGS_TITLE'],
-			'CHI_ENABLE'					=> $this->config['chi_enable'],
-			'CHI_ENABLE_GUESTS'				=> $this->config['chi_enable_guests'],
-			'S_SELECT_SETTINGS'				=> true,
-		));
-	}
-
-	/**
-	* Set page url
-	*
-	* @param string $u_action Custom form action
-	* @return null
-	* @access public
-	*/
 	public function set_page_url($u_action)
 	{
 		$this->u_action = $u_action;

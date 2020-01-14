@@ -1,154 +1,197 @@
-<!-- INCLUDE overall_header.html -->
-<h1>{L_ACP_CHI_TITLE}</h1>
+{% INCLUDE 'overall_header.html' %}
 
-<p>{L_ACP_CHI_DESC}</p>
+<h1>{{ lang('ACP_CHI_TITLE') }}</h1>
 
-<!-- IF S_SELECT_SETTINGS -->
+<p>{{ lang('ACP_CHI_DESC') }}</p>
 
-<form method="post" action="{U_ACTION}">
+{% if S_SELECT_SETTINGS %}
+<p><img src="https://img.shields.io/badge/{{ lang('Version') }}-{{ ACP_CHI_VERSION }}-green.svg?style=plastic" /></p>
+
+<form method="post" action="{{ U_ACTION }}">
 	<fieldset>
-		<legend>{L_ACP_CHI_TITLE}</legend>
+		<legend><i class="icon fa-cog fa-lg" aria-hidden="true"></i> {{ lang('ACP_CHI_TITLE') }}</legend>
 		<dl>
-			<dt><label for="chi_enable">{L_ACP_CHI_ENABLE}</label></dt>
-			<dd><input type="radio" class="radio" name="chi_enable" value="1" <!-- IF CHI_ENABLE -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="chi_enable" value="0" <!-- IF not CHI_ENABLE -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+			<dt>
+				<label for="chi_enable">{{ lang('ACP_CHI_ENABLE') }}{{ lang('COLON') }}</label>
+			</dt>
+			<dd>
+				<label><input type="radio" class="radio" name="chi_enable" value="1" {% if CHI_ENABLE %}checked="checked"{% endif %}/> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="chi_enable" value="0" {% if not CHI_ENABLE %}checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
 		</dl>
 		<dl>
-			<dt><label for="chi_enable_guests">{L_ACP_CHI_ENABLE_GUESTS}</label></dt>
-			<dd><input type="radio" class="radio" name="chi_enable_guests" value="1" <!-- IF CHI_ENABLE_GUESTS -->checked="checked"<!-- ENDIF -->/> {L_YES} &nbsp;
-				<input type="radio" class="radio" name="chi_enable_guests" value="0" <!-- IF not CHI_ENABLE_GUESTS -->checked="checked"<!-- ENDIF --> /> {L_NO}</dd>
+			<dt>
+				<label for="chi_enable_guests">{{ lang('ACP_CHI_ENABLE_GUESTS') }}{{ lang('COLON') }}</label>
+			</dt>
+			<dd>
+				<label><input type="radio" class="radio" name="chi_enable_guests" value="1" {% if CHI_ENABLE_GUESTS %}checked="checked"{% endif %}/> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="chi_enable_guests" value="0" {% if not CHI_ENABLE_GUESTS %}checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label for="chi_width_set">{{ lang('ACP_CHI_WIDTH_SET') }}{{ lang('COLON') }}</label><br />
+				<span>{{ lang('ACP_CHI_WIDTH_SET_EXPLAIN') }}</span>
+			</dt>
+			<dd><input type="text" name="chi_width_set" size="4" value="{{ CHI_WIDTH_SET }}" /></dd>
+		</dl>
+		<dl>
+			<dt>
+				<label for="chi_height_set">{{ lang('ACP_CHI_HEIGHT_SET') }}{{ lang('COLON') }}</label><br />
+				<span>{{ lang('ACP_CHI_HEIGHT_SET_EXPLAIN') }}</span>
+			</dt>
+			<dd><input type="text" name="chi_height_set" size="4" value="{{ CHI_HEIGHT_SET }}" /></dd>
+		</dl>
+		<dl>
+			<dt>
+				<label for="chi_showpagename">{{ lang('ACP_CHI_SHOWPAGENAME') }}{{ lang('COLON') }}</label><br />
+				<span>{{ lang('ACP_CHI_SHOWPAGENAME_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<label><input type="radio" class="radio" name="chi_showpagename" value="1" {% if CHI_SHOWPAGENAME %}checked="checked"{% endif %}/> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="chi_showpagename" value="0" {% if not CHI_SHOWPAGENAME %}checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+			</dd>
 		</dl>
 	</fieldset>
 	<fieldset class="submit-buttons">
-		<legend>{L_SUBMIT}</legend>
-		<input class="button1" id="submit" name="submit_settings" value="{L_SUBMIT}" type="submit" />&nbsp;
-		<input class="button2" id="reset" name="reset" value="{L_RESET}" type="reset" />
-		{S_FORM_TOKEN}
+		<legend>{{ lang('SUBMIT') }}</legend>
+		<input class="button1" id="submit" name="submit_settings" value="{{ lang('SUBMIT') }}" type="submit" />&nbsp;
+		<input class="button2" id="reset" name="reset" value="{{ lang('RESET') }}" type="reset" />
+		{{ S_FORM_TOKEN }}
 	</fieldset>
 </form>
+{% endif %}
 
-<!-- ENDIF -->
-
-<!-- IF S_SELECT_FORUMS -->
-
-	<table cellspacing="1">
-		<thead>
+{% if S_SELECT_FORUMS %}
+<table cellspacing="1">
+	<thead>
 		<tr>
-			<th>{L_ACP_CHI_FORUMNAME}</th>
-			<th>{L_CHI_LOGO}</th>
-			<th>{L_CHI_BACKGROUND}</th>
-			<th>{L_ACTION}</th>
+			<th>{{ lang('ACP_CHI_FORUMNAME') }}</th>
+			<th>{{ lang('CHI_LOGO') }}</th>
+			<th>{{ lang('CHI_BACKGROUND') }}</th>
+			<th>{{ lang('ACTION') }}</th>
 		</tr>
-		</thead>
-		<tbody>
-		<!-- BEGIN customheaderimages_forum -->
-			<!-- IF customheaderimages_forum.S_ROW_COUNT is even --><tr class="row1"><!-- ELSE --><tr class="row2"><!-- ENDIF -->
-			<td>{customheaderimages_forum.FORUMNAME} </td>
-			<td>{customheaderimages_forum.LOGO} </td>
-			<td>{customheaderimages_forum.BACKGROUND}</td>
-			<td>&nbsp;<a href="{customheaderimages_forum.U_EDIT}">{ICON_EDIT}</a> <a href="{customheaderimages_forum.U_DEL}">{ICON_DELETE}</a>&nbsp;</td>
+	</thead>
+	<tbody>
+		{% for customheaderimages_forum in loops.customheaderimages_forum %}
+			{% if customheaderimages_forum.S_ROW_COUNT is even %}<tr class="row1">{% else %}<tr class="row2">{% endif %}
+			<td>{{ customheaderimages_forum.FORUMNAME }} </td>
+			<td>{{ customheaderimages_forum.LOGO }} </td>
+			<td>{{ customheaderimages_forum.BACKGROUND }}</td>
+			<td>&nbsp;<a href="{{ customheaderimages_forum.U_EDIT }}">{{ ICON_EDIT }}</a> <a href="{{ customheaderimages_forum.U_DEL }}">{{ ICON_DELETE }}</a>&nbsp;</td>
 		</tr>
-		<!-- BEGINELSE -->
+		{% else %}
 		<tr class="row3">
-			<td colspan="4">{L_ACP_NO_ITEMS}</td>
+			<td colspan="4">{{ lang('ACP_NO_ITEMS') }}</td>
 		</tr>
-		<!-- END customheaderimages_forum -->
-		</tbody>
-	</table>
-	<form method="post" action="{U_ACTION}">
-
-		<fieldset>
-		<legend>{L_MODE_TITLE} {L_CHI_TITLE_FORUM}</legend>
-		<input type="hidden" name="id" value="{ID}" />
-		<dl>
-			<dt><label for="forum">{L_LOOK_UP_FORUM}{L_COLON}</label><br /><span>{L_CHI_FORUM_DESC}</span></dt>
-			<dd><select id="forum" name="forum_id" size="10">{S_FORUM_OPTIONS}</select></dd>
-		</dl>
-		<dl>
-			<dt><label for="logoimage">{L_CHI_LOGO}{L_COLON}</label><br /><span>{L_CHI_LOGO_DESC}</span><br /><em><span>{L_LOGO_PATH_EXPLAIN}</span></em></dt>
-			<dd><select id="logoimage" name="logoimage">{S_LOGO_LIST}</select></dd>
-		</dl>
-		<dl>
-			<dt><label for="backgroundimage">{L_CHI_BACKGROUND}{L_COLON}</label><br /><span>{L_CHI_BACKGROUND_DESC}</span><br /><em><span>{L_BACKGROUND_PATH_EXPLAIN}</span></em></dt>
-			<dd><select id="backgroundimage" name="backgroundimage">{S_BACKGROUND_LIST}</select></dd>
-		</dl>
-		</fieldset>
-
-		<fieldset class="submit-buttons">
-			<legend>{L_SUBMIT}</legend>
-			<input class="button1" id="submit" name="submit_forum" value="{L_SUBMIT}" type="submit" />&nbsp;
-			<input class="button2" id="reset" name="reset" value="{L_RESET}" type="reset" />
-			{S_FORM_TOKEN}
-		</fieldset>
-	</form>
-
-<!-- ENDIF -->
-
-<!-- IF S_SELECT_CUSTOMPAGE -->
-
-	<table cellspacing="1">
-		<thead>
-		<tr>
-			<th>{L_CHI_PAGENAME}</th>
-			<th>{L_CHI_PATH}</th>
-			<th>{L_CHI_QUERY}</th>
-			<th>{L_CHI_LOGO}</th>
-			<th>{L_CHI_BACKGROUND}</th>
-			<th>{L_ACTION}</th>
-		</tr>
-		</thead>
-		<tbody>
-		<!-- BEGIN customheaderimages -->
-			<!-- IF customheaderimages.S_ROW_COUNT is even --><tr class="row1"><!-- ELSE --><tr class="row2"><!-- ENDIF -->
-			<td>{customheaderimages.PAGENAME} </td>
-			<td>{customheaderimages.PATH} </td>
-			<td>{customheaderimages.QUERY} </td>
-			<td>{customheaderimages.LOGO} </td>
-			<td>{customheaderimages.BACKGROUND}</td>
-			<td>&nbsp;<a href="{customheaderimages.U_EDIT}">{ICON_EDIT}</a> <a href="{customheaderimages.U_DEL}">{ICON_DELETE}</a>&nbsp;</td>
-		</tr>
-		<!-- BEGINELSE -->
-		<tr class="row3">
-			<td colspan="6">{L_ACP_NO_ITEMS}</td>
-		</tr>
-		<!-- END customheaderimages -->
-		</tbody>
-	</table>
-
-	<form method="post" action="{U_ACTION}">
+		{% endfor %}
+	</tbody>
+</table>
+<form method="post" action="{{ U_ACTION }}">
 	<fieldset>
-		<legend>{L_MODE_TITLE} {L_CHI_TITLE_PAGE}</legend>
-		<input type="hidden" name="id" value="{ID}" />
+		<legend><i class="icon fa-cog fa-lg" aria-hidden="true"></i> {{ lang('MODE_TITLE') }} {{ lang('CHI_TITLE_FORUM') }}</legend>
+		<input type="hidden" name="id" value="{{ ID }}" />
 		<dl>
-			<dt><label for="pagename">{L_CHI_PAGENAME}{L_COLON}</label><br /><span>{L_CHI_PAGENAME_DESC}</span></dt>
-			<dd><input type="text" id="pagename" name="pagename" size="35" value="{PAGENAME}" /></dd>
+			<dt><label for="forum">{{ lang('LOOK_UP_FORUM') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_FORUM_DESC') }}</span></dt>
+			<dd>
+				<select id="forum" name="forum_id" size="10">{{ S_FORUM_OPTIONS }}</select>
+			</dd>
 		</dl>
 		<dl>
-			<dt><label for="custom_page_path">{L_CHI_PATH}{L_COLON}</label><br /><span>{L_CHI_PATH_DESC}</span></dt>
-			<dd><input type="text" id="custom_page_path" name="custom_page_path" size="35" value="{PATH}" /></dd>
+			<dt><label for="logoimage">{{ lang('CHI_LOGO') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_LOGO_DESC') }}</span><br /><em><span>{{ lang('LOGO_PATH_EXPLAIN') }}</span></em></dt>
+			<dd>
+				<select id="logoimage" name="logoimage">{{ S_LOGO_LIST }}</select>
+			</dd>
 		</dl>
 		<dl>
-			<dt><label for="custom_page_query">{L_CHI_QUERY}{L_COLON}</label><br /><span>{L_CHI_QUERY_DESC}</span></dt>
-			<dd><input type="text" id="custom_page_query" name="custom_page_query" size="35" value="{QUERY}" /></dd>
-		</dl>
-		<dl>
-			<dt><label for="logoimage">{L_CHI_LOGO}{L_COLON}</label><br /><span>{L_CHI_LOGO_DESC}</span><br /><em><span>{L_LOGO_PATH_EXPLAIN}</span></em></dt>
-			<dd><select id="logoimage" name="logoimage">{S_LOGO_LIST}</select></dd>
-		</dl>
-		<dl>
-			<dt><label for="backgroundimage">{L_CHI_BACKGROUND}{L_COLON}</label><br /><span>{L_CHI_BACKGROUND_DESC}</span><br /><em><span>{L_BACKGROUND_PATH_EXPLAIN}</span></em></dt>
-			<dd><select id="backgroundimage" name="backgroundimage">{S_BACKGROUND_LIST}</select></dd>
+			<dt><label for="backgroundimage">{{ lang('CHI_BACKGROUND') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_BACKGROUND_DESC') }}</span><br /><em><span>{{ lang('BACKGROUND_PATH_EXPLAIN') }}</span></em></dt>
+			<dd>
+				<select id="backgroundimage" name="backgroundimage">{{ S_BACKGROUND_LIST }}</select>
+			</dd>
 		</dl>
 	</fieldset>
-
 	<fieldset class="submit-buttons">
-		<legend>{L_SUBMIT}</legend>
-		<input class="button1" id="submit" name="submit_page" value="{L_SUBMIT}" type="submit" />&nbsp;
-		<input class="button2" id="reset" name="reset" value="{L_RESET}" type="reset" />
-		{S_FORM_TOKEN}
+		<legend>{{ lang('SUBMIT') }}</legend>
+		<input class="button1" id="submit" name="submit_forum" value="{{ lang('SUBMIT') }}" type="submit" />&nbsp;
+		<input class="button2" id="reset" name="reset" value="{{ lang('RESET') }}" type="reset" />
+		{{ S_FORM_TOKEN }}
 	</fieldset>
-	</form>
-	<br />
-<!-- ENDIF -->
+</form>
+{% endif %}
 
-<!-- INCLUDE overall_footer.html -->
+{% if S_SELECT_CUSTOMPAGE %}
+<table cellspacing="1">
+	<thead>
+		<tr>
+			<th>{{ lang('CHI_PAGENAME') }}</th>
+			<th>{{ lang('CHI_PATH') }}</th>
+			<th>{{ lang('CHI_QUERY') }}</th>
+			<th>{{ lang('CHI_LOGO') }}</th>
+			<th>{{ lang('CHI_BACKGROUND') }}</th>
+			<th>{{ lang('ACTION') }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for customheaderimages in loops.customheaderimages %}
+			{% if customheaderimages.S_ROW_COUNT is even %}<tr class="row1">{% else %}<tr class="row2">{% endif %}
+			<td>{{ customheaderimages.PAGENAME }} </td>
+			<td>{{ customheaderimages.PATH }} </td>
+			<td>{{ customheaderimages.QUERY }} </td>
+			<td>{{ customheaderimages.LOGO }} </td>
+			<td>{{ customheaderimages.BACKGROUND }}</td>
+			<td>&nbsp;<a href="{{ customheaderimages.U_EDIT }}">{{ ICON_EDIT }}</a> <a href="{{ customheaderimages.U_DEL }}">{{ ICON_DELETE }}</a>&nbsp;</td>
+		</tr>
+		{% else %}
+		<tr class="row3">
+			<td colspan="6">{{ lang('ACP_NO_ITEMS') }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<form method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend><i class="icon fa-cog fa-lg" aria-hidden="true"></i> {{ lang('MODE_TITLE') }} {{ lang('CHI_TITLE_PAGE') }}</legend>
+		<input type="hidden" name="id" value="{{ ID }}" />
+		<dl>
+			<dt><label for="pagename">{{ lang('CHI_PAGENAME') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_PAGENAME_DESC') }}</span></dt>
+			<dd>
+				<input type="text" id="pagename" name="pagename" size="35" value="{{ PAGENAME }}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="custom_page_path">{{ lang('CHI_PATH') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_PATH_DESC') }}</span></dt>
+			<dd>
+				<input type="text" id="custom_page_path" name="custom_page_path" size="35" value="{{ PATH }}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="custom_page_query">{{ lang('CHI_QUERY') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_QUERY_DESC') }}</span></dt>
+			<dd>
+				<input type="text" id="custom_page_query" name="custom_page_query" size="35" value="{{ QUERY }}" />
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="logoimage">{{ lang('CHI_LOGO') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_LOGO_DESC') }}</span><br /><em><span>{{ lang('LOGO_PATH_EXPLAIN') }}</span></em></dt>
+			<dd>
+				<select id="logoimage" name="logoimage">{{ S_LOGO_LIST }}</select>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="backgroundimage">{{ lang('CHI_BACKGROUND') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_BACKGROUND_DESC') }}</span><br /><em><span>{{ lang('BACKGROUND_PATH_EXPLAIN') }}</span></em></dt>
+			<dd>
+				<select id="backgroundimage" name="backgroundimage">{{ S_BACKGROUND_LIST }}</select>
+			</dd>
+		</dl>
+	</fieldset>
+	<fieldset class="submit-buttons">
+		<legend>{{ lang('SUBMIT') }}</legend>
+		<input class="button1" id="submit" name="submit_page" value="{{ lang('SUBMIT') }}" type="submit" />&nbsp;
+		<input class="button2" id="reset" name="reset" value="{{ lang('RESET') }}" type="reset" />
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+</form>
+<br />
+{% endif %}
+
+{% INCLUDE 'overall_footer.html' %}

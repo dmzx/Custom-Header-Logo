@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - Custom Header Logo
-* @copyright (c) 2015 dmzx - http://www.dmzx-web.net
+* @copyright (c) 2018 dmzx - https://www.dmzx-web.net
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -11,22 +11,11 @@ namespace dmzx\chl\migrations;
 
 class chl_data extends \phpbb\db\migration\migration
 {
-
-	public function effectively_installed()
-	{
-		return isset($this->config['forumicons_version']) && version_compare($this->config['chl_version'], '1.0.3', '>=');
-	}
-
-	static public function depends_on()
-	{
-		return array('\phpbb\db\migration\data\v31x\v311');
-	}
-
 	public function update_data()
 	{
 		return array(
 			// Add configs
-			array('config.add', array('chl_version', '1.0.3')),
+			array('config.add', array('chl_version', '1.0.0')),
 
 			// Add upload directories
 			array('custom', array(array($this, 'upload_directory_chl_logos'))),

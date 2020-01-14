@@ -2,21 +2,15 @@
 /**
 *
 * @package phpBB Extension - Custom Header Logo
-* @copyright (c) 2015 dmzx - http://www.dmzx-web.net
+* @copyright (c) 2018 dmzx - https://www.dmzx-web.net
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
 
 namespace dmzx\chl\event;
 
-/**
-* @ignore
-*/
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-/**
-* Event listener
-*/
 class listener implements EventSubscriberInterface
 {
 	/** @var \phpbb\config\config */
@@ -35,10 +29,7 @@ class listener implements EventSubscriberInterface
 	protected $request;
 
 	/** @var string */
-	protected $phpbb_root_path;
-
-	/** @var string */
-	protected $phpEx;
+	protected $php_ext;
 
 	/**
 	* The database table
@@ -55,42 +46,37 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\user						$user
 	* @param \phpbb\db\driver\driver_interface	$db
 	* @param \phpbb\request\request		 		$request
-	* @param string 							$phpbb_root_path
-	* @param string 							$phpEx
+	* @param string 							$php_ext
 	* @param string 							$header_images_table
 	*
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, $phpbb_root_path, $phpEx, $header_images_table)
+	public function __construct(
+		\phpbb\config\config $config,
+		\phpbb\template\template $template,
+		\phpbb\user $user,
+		\phpbb\db\driver\driver_interface $db,
+		\phpbb\request\request $request,
+		$php_ext,
+		$header_images_table
+	)
 	{
 		$this->config 				= $config;
 		$this->template 			= $template;
 		$this->user 				= $user;
 		$this->db 					= $db;
 		$this->request 				= $request;
-		$this->phpbb_root_path 		= $phpbb_root_path;
-		$this->phpEx 				= $phpEx;
+		$this->php_ext 				= $php_ext;
 		$this->header_images_table 	= $header_images_table;
 	}
 
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'			=> 'load_language_on_setup',
-			'core.page_header_after'	=> 'add_page_header_link',
+			'core.page_header_after'	=> 'page_header_after',
 		);
 	}
 
-	public function load_language_on_setup($event)
-	{
-		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = array(
-			'ext_name' => 'dmzx/chl',
-			'lang_set' => 'common',
-		);
-		$event['lang_set_ext'] = $lang_set_ext;
-	}
-
-	public function add_page_header_link($event)
+	public function page_header_after($event)
 	{
 		$site_logo = $this->user->img('site_logo');
 		$site_background_logo = '';
@@ -101,7 +87,7 @@ class listener implements EventSubscriberInterface
 			{
 				$post = $this->request->is_set('f');
 				// Are we in a forum, topic or a posting page with logo/bg logo?
-				if ((($this->user->page['page_name'] == "viewforum.$this->phpEx") || ($this->user->page['page_name'] == "viewtopic.$this->phpEx") || ($this->user->page['page_name'] == "posting.$this->phpEx")) && !empty($post) && !is_array($post))
+				if ((($this->user->page['page_name'] == "viewforum.$this->php_ext") || ($this->user->page['page_name'] == "viewtopic.$this->php_ext") || ($this->user->page['page_name'] == "posting.$this->php_ext")) && !empty($post) && !is_array($post))
 				{
 					$forum_id = $this->request->variable('f', 0);
 					$sql = 'SELECT page_logo, page_background_logo
@@ -115,13 +101,13 @@ class listener implements EventSubscriberInterface
 				}
 
 				// Are we on a page where we defined a logo and/or header background image?
-				if ($this->user->page['page_name'] != "viewforum.$this->phpEx")
+				if ($this->user->page['page_name'] != "viewforum.$this->php_ext")
 				{
-					$sql_where = "page_name = '" . $this->db->sql_escape(str_replace('.' . $this->phpEx, '', $this->user->page['page_name'])) . "'
+					$sql_where = "page_name = '" . $this->db->sql_escape(str_replace('.' . $this->php_ext, '', $this->user->page['page_name'])) . "'
 						AND page_path = '" . $this->db->sql_escape($this->user->page['page_dir']) . "'
 						AND forum_id = 0";
 
-					$sql = 'SELECT page_logo, page_background_logo, page_query
+					$sql = 'SELECT page_logo, page_background_logo, page_query, page_path
 						FROM ' . $this->header_images_table . "
 						WHERE $sql_where
 						ORDER BY page_query DESC, page_path DESC";
@@ -139,20 +125,55 @@ class listener implements EventSubscriberInterface
 					$this->db->sql_freeresult($result);
 				}
 
+				$this->board_url = generate_board_url() . '/';
+
 				// Create the link(s)
 				if (!empty($site_logo_custom))
 				{
-					$site_logo = '<img src="' . $this->phpbb_root_path . 'images/chl_logos/' . $site_logo_custom . '" alt="" title="" />';
+					$site_logo = $this->board_url . 'images/chl_logos/' . $site_logo_custom;
+
+					$this->template->assign_var('SITE_LOGO_IMG', $site_logo);
 				}
+				else
+				{
+					if (phpbb_version_compare($this->config['version'], '3.3.0', '<'))
+					{
+						$site_logo = $this->board_url . 'styles/prosilver/theme/images/site_logo.gif';
+
+						$this->template->assign_var('SITE_LOGO_IMG', false);
+					}
+					else
+					{
+						$site_logo = $this->board_url . 'styles/prosilver/theme/images/site_logo.svg';
+
+						$this->template->assign_var('SITE_LOGO_IMG', false);
+					}
+				}
+
 				if (!empty($header_background_custom))
 				{
-					$site_background_logo = $this->phpbb_root_path . 'images/chl_backgrounds/' . $header_background_custom;
+					$site_background_logo = $this->board_url . 'images/chl_backgrounds/' . $header_background_custom;
+
+					$this->template->assign_var('SITE_BG_IMG', $site_background_logo);
 				}
 			}
+
+			if ($this->user->page['page_name'] != "viewforum.$this->php_ext" && $this->user->page['page_name'] != "viewtopic.$this->php_ext" && $this->config['chi_showpagename'])
+			{
+				$chi_showpagename = str_replace(['.php'], '', $this->user->page['page']);
+				$chi_showpagenames = str_replace(['?'], ' ', $chi_showpagename);
+
+				$this->template->assign_vars(array(
+					'S_CHI_SHOWPAGENAME'		=> true,
+					'CHI_SHOWPAGENAME'			=> $chi_showpagenames,
+				));
+			}
+
+			$this->template->assign_vars(array(
+				'CHI_WIDTH_SET'				=> $this->config['chi_width_set'],
+				'CHI_HEIGHT_SET'			=> $this->config['chi_height_set'],
+				'S_CHI_ENABLED'				=> $this->config['chi_enable'] && ($this->config['chi_enable_guests'] && empty($this->user->data['is_registered']) || !empty($this->user->data['is_registered'])),
+			));
 		}
-		$this->template->assign_vars(array(
-			'SITE_LOGO_IMG'		=> $site_logo,
-			'SITE_BG_IMG'		=> $site_background_logo,
-		));
 	}
 }
