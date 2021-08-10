@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "Custom Header Logo displays logos and background images in the header. This can changed for all forums and categories independently.",
 	"homepage": "https://www.dmzx-web.net",
-	"version": "1.0.3",
-	"time": "2020-01-09",
+	"version": "1.0.4",
+	"time": "2021-08-10",
 	"keywords": [
 		"phpbb",
 		"extension",
