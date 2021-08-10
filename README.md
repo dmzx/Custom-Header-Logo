@@ -1,6 +1,6 @@
 # Custom Header Logo Extension
 
-[![Build Status](https://travis-ci.org/dmzx/Custom-Header-Logo.svg?branch=master)](https://travis-ci.org/dmzx/Custom-Header-Logo)
+[![Build Status](https://github.com/dmzx/Custom-Header-Logo/workflows/Tests/badge.svg)](https://github.com/phpbb-extensions/dmzx/Custom-Header-Logo)
 
 ## Install
 
