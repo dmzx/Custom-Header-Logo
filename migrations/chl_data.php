@@ -13,14 +13,14 @@ class chl_data extends \phpbb\db\migration\migration
 {
 	public function update_data()
 	{
-		return array(
+		return [
 			// Add configs
-			array('config.add', array('chl_version', '1.0.0')),
+			['config.add', ['chl_version', '1.0.0']],
 
 			// Add upload directories
-			array('custom', array(array($this, 'upload_directory_chl_logos'))),
-			array('custom', array(array($this, 'upload_directory_chl_backgrounds'))),
-		);
+			['custom', [[$this, 'upload_directory_chl_logos']]],
+			['custom', [[$this, 'upload_directory_chl_backgrounds']]],
+		];
 	}
 
 	public function upload_directory_chl_logos()

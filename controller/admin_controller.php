@@ -96,12 +96,12 @@ class admin_controller
 			$this->config->set('chi_height_set', $this->request->variable('chi_height_set', 0));
 			$this->config->set('chi_showpagename', $this->request->variable('chi_showpagename', 0));
 
-			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_SETTINGS_UPDATED', false, array($this->user->data['username']));
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_SETTINGS_UPDATED', false, [$this->user->data['username']]);
 
 			trigger_error($this->user->lang['CHI_SETTINGS_UPDATED'] . adm_back_link($this->u_action));
 		}
 
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'L_ACP_CHI_DESC'			=> $this->user->lang['ACP_CHI_DESC_SETTINGS'],
 			'L_ACP_CHI_TITLE'			=> $this->user->lang['ACP_CHI_SETTINGS_TITLE'],
 			'CHI_ENABLE'				=> $this->config['chi_enable'],
@@ -111,7 +111,7 @@ class admin_controller
 			'ACP_CHI_VERSION'			=> $this->config['chl_version'],
 			'CHI_SHOWPAGENAME'			=> $this->config['chi_showpagename'],
 			'S_SELECT_SETTINGS'			=> true,
-		));
+		]);
 	}
 
 	public function display_forums()
@@ -125,18 +125,18 @@ class admin_controller
 		$forum_id = intval($this->request->variable('forum_id', 0));
 		$backgroundimage = $this->request->variable('backgroundimage', '');
 		$logoimage = $this->request->variable('logoimage', '');
-		$disabled_ids = array();
+		$disabled_ids = [];
 
 		$lang_mode = $this->user->lang['CHI_TITLE_ADD'];
 
-		$sql_ary = array(
+		$sql_ary = [
 			'forum_id'				=> $forum_id,
 			'page_name'				=> '',
 			'page_logo'				=> $logoimage,
 			'page_background_logo'	=> $backgroundimage,
 			'page_path'				=> '',
 			'page_query'			=> '',
-		);
+		];
 
 		$sql = 'SELECT forum_id
 			FROM ' . $this->header_images_table	. '
@@ -167,7 +167,7 @@ class admin_controller
 				{
 					$this->db->sql_query('INSERT INTO ' . $this->header_images_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_ADDED', false, array($this->user->data['username']));
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_ADDED', false, [$this->user->data['username']]);
 
 					trigger_error($this->user->lang['CHI_ADDED'] . adm_back_link($this->u_action));
 				}
@@ -217,7 +217,7 @@ class admin_controller
 				{
 					$this->db->sql_query('UPDATE ' . $this->header_images_table	. ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . ' WHERE page_header_image_id = ' . $id);
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_UPDATED', false, array($this->user->data['username']));
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_UPDATED', false, [$this->user->data['username']]);
 
 					trigger_error($this->user->lang['CHI_UPDATED'] . adm_back_link($this->u_action));
 				}
@@ -231,16 +231,16 @@ class admin_controller
 						WHERE page_header_image_id = ' . (int) $id;
 					$this->db->sql_query($sql);
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_DELETED', false, array($this->user->data['username']));
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_DELETED', false, [$this->user->data['username']]);
 
 					trigger_error($this->user->lang['CHI_DELETED'] . adm_back_link($this->u_action));
 				}
 				else
 				{
-					confirm_box(false, $this->user->lang['CHI_REALY_DELETE'], build_hidden_fields(array(
+					confirm_box(false, $this->user->lang['CHI_REALY_DELETE'], build_hidden_fields([
 						'id'			=> $id,
 						'action'	=> 'delete',
-					)));
+					]));
 				}
 			break;
 		}
@@ -255,13 +255,13 @@ class admin_controller
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$this->template->assign_block_vars('customheaderimages_forum', array(
+			$this->template->assign_block_vars('customheaderimages_forum', [
 				'FORUMNAME'		=> $row['forum_name'],
 				'LOGO'			=> $row['page_logo'],
 				'BACKGROUND'	=> $row['page_background_logo'],
 				'U_EDIT'		=> $this->u_action . '&amp;action=edit&amp;id=' .$row['page_header_image_id'],
 				'U_DEL'			=> $this->u_action . '&amp;action=delete&amp;id=' .$row['page_header_image_id'],
-			));
+			]);
 		}
 		$this->db->sql_freeresult($result);
 
@@ -294,7 +294,7 @@ class admin_controller
 			}
 		}
 
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'U_ACTION'			=> $form_action,
 			'L_MODE_TITLE'		=> $lang_mode,
 			'L_ACP_CHI_DESC'	=> $this->user->lang['ACP_CHI_DESC_FORUMS'],
@@ -303,7 +303,7 @@ class admin_controller
 			'S_BACKGROUND_LIST' => $logo_list_bg,
 			'S_SELECT_FORUMS'	=> true,
 			'S_FORUM_OPTIONS'	=> $forums_list,
-		));
+		]);
 	}
 
 	public function display_pages()
@@ -320,13 +320,13 @@ class admin_controller
 		$custom_page_path = $this->request->variable('custom_page_path', '');
 		$custom_page_query = $this->request->variable('custom_page_query', '');
 
-		$sql_ary = array(
+		$sql_ary = [
 			'page_name'				=> $pagename,
 			'page_logo'				=> $logoimage,
 			'page_background_logo'	=> $backgroundimage,
 			'page_path'				=> $custom_page_path,
 			'page_query'			=> $custom_page_query,
-		);
+		];
 
 		switch ($action)
 		{
@@ -350,7 +350,7 @@ class admin_controller
 				{
 					$this->db->sql_query('INSERT INTO ' . $this->header_images_table . ' ' . $this->db->sql_build_array('INSERT', $sql_ary));
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_ADDED', false, array($this->user->data['username']));
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_ADDED', false, [$this->user->data['username']]);
 
 					trigger_error($this->user->lang['CHI_ADDED'] . adm_back_link($this->u_action));
 				}
@@ -369,12 +369,12 @@ class admin_controller
 				$page_logo_selected = $row['page_logo'];
 				$page_background_selected = $row['page_background_logo'];
 
-				$this->template->assign_vars(array(
+				$this->template->assign_vars([
 					'ID'			=> $row['page_header_image_id'],
 					'PAGENAME'		=> $row['page_name'],
 					'PATH'			=> $row['page_path'],
 					'QUERY'			=> $row['page_query'],
-				));
+				]);
 			break;
 
 			case 'update':
@@ -392,7 +392,7 @@ class admin_controller
 				{
 					$this->db->sql_query('UPDATE ' . $this->header_images_table	. ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . ' WHERE page_header_image_id = ' . $id);
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_UPDATED', false, array($this->user->data['username']));
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_UPDATED', false, [$this->user->data['username']]);
 
 					trigger_error($this->user->lang['CHI_UPDATED'] . adm_back_link($this->u_action));
 				}
@@ -406,16 +406,16 @@ class admin_controller
 						WHERE page_header_image_id = ' . (int) $id;
 					$this->db->sql_query($sql);
 
-					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_DELETED', false, array($this->user->data['username']));
+					$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_CHI_DELETED', false, [$this->user->data['username']]);
 
 					trigger_error($this->user->lang['CHI_DELETED'] . adm_back_link($this->u_action));
 				}
 				else
 				{
-					confirm_box(false, $this->user->lang['CHI_REALY_DELETE'], build_hidden_fields(array(
+					confirm_box(false, $this->user->lang['CHI_REALY_DELETE'], build_hidden_fields([
 						'id'		=> $id,
 						'action'	=> 'delete',
-					)));
+					]));
 				}
 			break;
 		}
@@ -428,7 +428,7 @@ class admin_controller
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$this->template->assign_block_vars('customheaderimages', array(
+			$this->template->assign_block_vars('customheaderimages', [
 				'PAGENAME'		=> $row['page_name'],
 				'LOGO'			=> $row['page_logo'],
 				'PATH'			=> $row['page_path'],
@@ -436,7 +436,7 @@ class admin_controller
 				'BACKGROUND'	=> $row['page_background_logo'],
 				'U_EDIT'		=> $this->u_action . '&amp;action=edit&amp;id=' .$row['page_header_image_id'],
 				'U_DEL'			=> $this->u_action . '&amp;action=delete&amp;id=' .$row['page_header_image_id'],
-			));
+			]);
 		}
 		$this->db->sql_freeresult($result);
 
@@ -469,7 +469,7 @@ class admin_controller
 			}
 		}
 
-		$this->template->assign_vars(array(
+		$this->template->assign_vars([
 			'U_ACTION'				=> $form_action,
 			'L_MODE_TITLE'			=> $lang_mode,
 			'L_ACP_CHI_DESC'		=> $this->user->lang['ACP_CHI_DESC_PAGES'],
@@ -477,7 +477,7 @@ class admin_controller
 			'S_LOGO_LIST'			=> $logo_list,
 			'S_BACKGROUND_LIST' 	=> $logo_list_bg,
 			'S_SELECT_CUSTOMPAGE'	=> true,
-		));
+		]);
 	}
 
 	public function set_page_url($u_action)

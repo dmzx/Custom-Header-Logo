@@ -17,7 +17,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -36,7 +36,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'FORUM_LOGO' 						=> 'Forum logo',
 	'NO_LOGO' 							=> 'No custom logo',
 	'LOGO_PATH' 						=> 'Forum logos storage path',
@@ -82,4 +82,4 @@ $lang = array_merge($lang, array(
 	'ACP_CHI_SHOWPAGENAME'				=> 'Set show page name',
 	'ACP_CHI_SHOWPAGENAME_EXPLAIN'		=> 'If enabled message is shown with page name.<br />Admin can see only. "Enable Custom Header Images" must be set to Yes.<br />Not visible in viewforum and viewtopic.',
 	'ACP_CHI_VERSION'				    => 'Version',
-));
+]);

@@ -71,9 +71,9 @@ class listener implements EventSubscriberInterface
 
 	static public function getSubscribedEvents()
 	{
-		return array(
+		return [
 			'core.page_header_after'	=> 'page_header_after',
-		);
+		];
 	}
 
 	public function page_header_after($event)
@@ -163,17 +163,17 @@ class listener implements EventSubscriberInterface
 				$chi_showpagename = str_replace(['.php'], '', $this->user->page['page']);
 				$chi_showpagenames = str_replace(['?'], ' ', $chi_showpagename);
 
-				$this->template->assign_vars(array(
+				$this->template->assign_vars([
 					'S_CHI_SHOWPAGENAME'		=> true,
 					'CHI_SHOWPAGENAME'			=> $chi_showpagenames,
-				));
+				]);
 			}
 
-			$this->template->assign_vars(array(
+			$this->template->assign_vars([
 				'CHI_WIDTH_SET'				=> $this->config['chi_width_set'],
 				'CHI_HEIGHT_SET'			=> $this->config['chi_height_set'],
 				'S_CHI_ENABLED'				=> $this->config['chi_enable'] && ($this->config['chi_enable_guests'] && empty($this->user->data['is_registered']) || !empty($this->user->data['is_registered'])),
-			));
+			]);
 		}
 	}
 }

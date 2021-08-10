@@ -14,7 +14,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -32,7 +32,7 @@ if (empty($lang) || !is_array($lang))
 // Some characters for use
 // ’ » “ ” …
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'ACP_CHI_FORUMS_TITLE'				=> 'Forums &amp; categories logo assignment',
 	'ACP_CHI_PAGES_TITLE'				=> 'Custom page logo assignment',
 	'ACP_CHI_SETTINGS_TITLE'			=> 'Basic settings',
@@ -42,4 +42,4 @@ $lang = array_merge($lang, array(
 	'LOG_CHI_ADDED'						=> '<strong>Custom Header Logo entry added</strong>',
 	'LOG_CHI_UPDATED'					=> '<strong>Custom Header Logo entry updated</strong>',
 	'LOG_CHI_DELETED'					=> '<strong>Custom Header Logo entry deleted</strong>',
-));
+]);
