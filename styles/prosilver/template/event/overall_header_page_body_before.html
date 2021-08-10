@@ -1,8 +1,8 @@
 {% if S_CHI_ENABLED %}
-<!-- IF S_CHI_SHOWPAGENAME and U_ACP -->
+{% if S_CHI_SHOWPAGENAME and U_ACP %}
 	{% INCLUDECSS '@dmzx_chl/chi.css' %}
 	<div id="dmzx_chi">
 		<div>{{ CHI_SHOWPAGENAME }}</div>
 	</div>
-	<!-- ENDIF -->
+	{% endif %}
 {% endif %}
