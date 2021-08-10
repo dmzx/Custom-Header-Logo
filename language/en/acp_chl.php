@@ -81,4 +81,5 @@ $lang = array_merge($lang, array(
 	'ACP_CHI_HEIGHT_SET_EXPLAIN'		=> 'Set logo height in pixels.',
 	'ACP_CHI_SHOWPAGENAME'				=> 'Set show page name',
 	'ACP_CHI_SHOWPAGENAME_EXPLAIN'		=> 'If enabled message is shown with page name.<br />Admin can see only. "Enable Custom Header Images" must be set to Yes.<br />Not visible in viewforum and viewtopic.',
+	'ACP_CHI_VERSION'				    => 'Version',
 ));
