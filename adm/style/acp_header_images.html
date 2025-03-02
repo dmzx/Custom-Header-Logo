@@ -1,4 +1,5 @@
 {% INCLUDE 'overall_header.html' %}
+{% INCLUDECSS '@dmzx_chl/css/acp_header_images.css' %}
 
 <h1>{{ lang('ACP_CHI_TITLE') }}</h1>
 
@@ -7,104 +8,196 @@
 {% if S_SELECT_SETTINGS %}
 <p><img src="https://img.shields.io/badge/{{ lang('ACP_CHI_VERSION') }}-{{ ACP_CHI_VERSION }}-green.svg?style=plastic" /></p>
 
-<form method="post" action="{{ U_ACTION }}">
-	<fieldset>
-		<legend><i class="icon fa-cog fa-lg" aria-hidden="true"></i> {{ lang('ACP_CHI_TITLE') }}</legend>
-		<dl>
-			<dt>
-				<label for="chi_enable">{{ lang('ACP_CHI_ENABLE') }}{{ lang('COLON') }}</label>
-			</dt>
-			<dd>
-				<label><input type="radio" class="radio" name="chi_enable" value="1" {% if CHI_ENABLE %}checked="checked"{% endif %}/> {{ lang('YES') }}</label>
-				<label><input type="radio" class="radio" name="chi_enable" value="0" {% if not CHI_ENABLE %}checked="checked"{% endif %} /> {{ lang('NO') }}</label>
-			</dd>
-		</dl>
-		<dl>
-			<dt>
-				<label for="chi_enable_guests">{{ lang('ACP_CHI_ENABLE_GUESTS') }}{{ lang('COLON') }}</label>
-			</dt>
-			<dd>
-				<label><input type="radio" class="radio" name="chi_enable_guests" value="1" {% if CHI_ENABLE_GUESTS %}checked="checked"{% endif %}/> {{ lang('YES') }}</label>
-				<label><input type="radio" class="radio" name="chi_enable_guests" value="0" {% if not CHI_ENABLE_GUESTS %}checked="checked"{% endif %} /> {{ lang('NO') }}</label>
-			</dd>
-		</dl>
-		<dl>
-			<dt>
-				<label for="chi_width_set">{{ lang('ACP_CHI_WIDTH_SET') }}{{ lang('COLON') }}</label><br />
-				<span>{{ lang('ACP_CHI_WIDTH_SET_EXPLAIN') }}</span>
-			</dt>
-			<dd><input type="text" name="chi_width_set" size="4" value="{{ CHI_WIDTH_SET }}" /></dd>
-		</dl>
-		<dl>
-			<dt>
-				<label for="chi_height_set">{{ lang('ACP_CHI_HEIGHT_SET') }}{{ lang('COLON') }}</label><br />
-				<span>{{ lang('ACP_CHI_HEIGHT_SET_EXPLAIN') }}</span>
-			</dt>
-			<dd><input type="text" name="chi_height_set" size="4" value="{{ CHI_HEIGHT_SET }}" /></dd>
-		</dl>
-		<dl>
-			<dt>
-				<label for="chi_showpagename">{{ lang('ACP_CHI_SHOWPAGENAME') }}{{ lang('COLON') }}</label><br />
-				<span>{{ lang('ACP_CHI_SHOWPAGENAME_EXPLAIN') }}</span>
-			</dt>
-			<dd>
-				<label><input type="radio" class="radio" name="chi_showpagename" value="1" {% if CHI_SHOWPAGENAME %}checked="checked"{% endif %}/> {{ lang('YES') }}</label>
-				<label><input type="radio" class="radio" name="chi_showpagename" value="0" {% if not CHI_SHOWPAGENAME %}checked="checked"{% endif %} /> {{ lang('NO') }}</label>
-			</dd>
-		</dl>
-	</fieldset>
-	<fieldset class="submit-buttons">
-		<legend>{{ lang('SUBMIT') }}</legend>
-		<input class="button1" id="submit" name="submit_settings" value="{{ lang('SUBMIT') }}" type="submit" />&nbsp;
-		<input class="button2" id="reset" name="reset" value="{{ lang('RESET') }}" type="reset" />
-		{{ S_FORM_TOKEN }}
-	</fieldset>
+<form id="acp_header_images" name="acp_header_images" method="post" action="{{ U_ACTION }}" onsubmit="return validateExtensions()" enctype="multipart/form-data">
+	<div class="chi-container">
+		<fieldset>
+			<legend><i class="icon fa-cog fa-lg" aria-hidden="true"></i> {{ lang('ACP_CHI_TITLE') }}</legend>
+			<dl>
+				<dt>
+					<label for="chi_enable">{{ lang('ACP_CHI_ENABLE') }}{{ lang('COLON') }}</label>
+				</dt>
+				<dd>
+					<label><input type="radio" class="radio" name="chi_enable" value="1" {% if CHI_ENABLE %}checked="checked"{% endif %}/> {{ lang('YES') }}</label>
+					<label><input type="radio" class="radio" name="chi_enable" value="0" {% if not CHI_ENABLE %}checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+				</dd>
+			</dl>
+			<hr>
+			<dl>
+				<dt>
+					<label for="chi_enable_guests">{{ lang('ACP_CHI_ENABLE_GUESTS') }}{{ lang('COLON') }}</label>
+				</dt>
+				<dd>
+					<label><input type="radio" class="radio" name="chi_enable_guests" value="1" {% if CHI_ENABLE_GUESTS %}checked="checked"{% endif %}/> {{ lang('YES') }}</label>
+					<label><input type="radio" class="radio" name="chi_enable_guests" value="0" {% if not CHI_ENABLE_GUESTS %}checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="chi_disable_site_info">{{ lang('ACP_CHI_DISABLE_SITE_INFO') }}{{ lang('COLON') }}</label><br>
+					<span>{{ lang('ACP_CHI_DISABLE_SITE_INFO_EXPLAIN') }}</span>
+				</dt>
+				<dd>
+					<label><input type="radio" class="radio" name="chi_disable_site_info" value="1" {% if CHI_DISABLE_SITE_INFO %}checked="checked"{% endif %}/> {{ lang('YES') }}</label>
+					<label><input type="radio" class="radio" name="chi_disable_site_info" value="0" {% if not CHI_DISABLE_SITE_INFO %}checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+				</dd>
+			</dl>
+			<hr>
+			<dl>
+				<dt>
+					<label for="chi_width_set">{{ lang('ACP_CHI_WIDTH_SET') }}{{ lang('COLON') }}</label><br>
+					<span>{{ lang('ACP_CHI_WIDTH_SET_EXPLAIN') }}</span>
+				</dt>
+				<dd><input type="number" name="chi_width_set" size="4" value="{{ CHI_WIDTH_SET }}" /></dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="chi_height_set">{{ lang('ACP_CHI_HEIGHT_SET') }}{{ lang('COLON') }}</label><br>
+					<span>{{ lang('ACP_CHI_HEIGHT_SET_EXPLAIN') }}</span>
+				</dt>
+				<dd><input type="number" name="chi_height_set" size="4" value="{{ CHI_HEIGHT_SET }}" /></dd>
+			</dl>
+			<hr>
+			<dl>
+				<dt>
+					<label for="chi_showpagename">{{ lang('ACP_CHI_SHOWPAGENAME') }}{{ lang('COLON') }}</label><br>
+					<span>{{ lang('ACP_CHI_SHOWPAGENAME_EXPLAIN') }}</span>
+				</dt>
+				<dd>
+					<label><input type="radio" class="radio" name="chi_showpagename" value="1" {% if CHI_SHOWPAGENAME %}checked="checked"{% endif %}/> {{ lang('YES') }}</label>
+					<label><input type="radio" class="radio" name="chi_showpagename" value="0" {% if not CHI_SHOWPAGENAME %}checked="checked"{% endif %} /> {{ lang('NO') }}</label>
+				</dd>
+			</dl>
+			<p class="submit-buttons">
+				<input class="button1" type="submit" name="submit_settings" value="{{ lang('SUBMIT') }}" />
+				<input class="button2" id="reset" name="reset" value="{{ lang('RESET') }}" type="reset" />
+			</p>
+		</fieldset>
+		</fieldset>
+		<fieldset>
+			<legend><i class="icon fa-cog fa-lg" aria-hidden="true"></i> {{ lang('ACP_CHI_UPLOAD_SECTION') }}</legend>
+			<dl>
+				<dt><label for="chi_allowed_extension_images">{{ lang('ACP_CHI_ALLOWED_EXTENSION_IMAGES') }}{{ lang('COLON') }}</label><br>
+					<span>{{ lang('ACP_CHI_ALLOWED_EXTENSION_IMAGES_EXPLAIN') }}</span>
+				</dt>
+				<dd><input type="text" id="chi_allowed_extension_images" name="chi_allowed_extension_images" size="40" maxlength="255" value="{{ CHI_ALLOWED_EXTENSION_IMAGES }}" /></dd>
+			</dl>
+			<dl>
+				<dt><label for="chi_allowed_extension_video">{{ lang('ACP_CHI_ALLOWED_EXTENSION_VIDEO') }}{{ lang('COLON') }}</label><br>
+					<span>{{ lang('ACP_CHI_ALLOWED_EXTENSION_IMAGES_EXPLAIN') }}</span>
+				</dt>
+				<dd><input type="text" id="chi_allowed_extension_video" name="chi_allowed_extension_video" size="40" maxlength="255" value="{{ CHI_ALLOWED_EXTENSION_VIDEO }}" /></dd>
+			</dl>
+			<dl>
+				<dt><label for="chi_logos_upload">{{ lang('ACP_CHI_LOGOS_UPLOAD') ~ lang('COLON') }}</label><br>
+					<span>{{ CHI_ALLOWED_EXTENSION_IMAGE }}</span><br>
+					<span>{{ lang('ACP_CHI_LOGOS_UPLOAD_EXPLAIN') }}</span>
+				</dt>
+				<dd><input type="file" name="chi_logos_upload" id="chi_logos_upload" onchange="toggleFileInputs('chi_logos_upload', 'chi_bg_upload')"></dd>
+			</dl>
+			<dl>
+				<dt><label for="chi_bg_upload">{{ lang('ACP_CHI_BG_UPLOAD') ~ lang('COLON') }}</label><br>
+					<span>{{ CHI_ALLOWED_EXTENSION }}</span><br>
+					<span>{{ lang('ACP_CHI_BG_UPLOAD_EXPLAIN') }}</span>
+				</dt>
+				<dd><input type="file" name="chi_bg_upload" id="chi_bg_upload" onchange="toggleFileInputs('chi_bg_upload', 'chi_logos_upload')"></dd>
+			</dl>
+			<p class="submit-buttons">
+				<input class="button1" type="submit" name="acp_header_images_upload" value="{{ lang('SUBMIT') }}" />
+				<input class="button2" id="reset" name="reset" value="{{ lang('RESET') }}" type="reset" />
+			</p>
+		</fieldset>
+	</div>
+	{{ S_FORM_TOKEN }}
 </form>
+
+<script>
+function toggleFileInputs(changedInputId, otherInputId) {
+	var changedInput = document.getElementById(changedInputId);
+	var otherInput = document.getElementById(otherInputId);
+
+	if (changedInput.files.length > 0) {
+		otherInput.disabled = true;
+	} else {
+		otherInput.disabled = false;
+	}
+}
+
+document.getElementById('chi_logos_upload').addEventListener('change', function() {
+	toggleFileInputs('chi_logos_upload', 'chi_bg_upload');
+});
+
+document.getElementById('chi_bg_upload').addEventListener('change', function() {
+	toggleFileInputs('chi_bg_upload', 'chi_logos_upload');
+});
+
+function validateExtensions() {
+	const imageExtensions = ["jpg", "jpeg", "png", "gif", "ico", "svg"];
+	const videoExtensions = ["mp4", "mov", "wmv", "avi"];
+
+	const imageInput = document.getElementById('chi_allowed_extension_images').value.split(',').map(ext => ext.trim());
+	const videoInput = document.getElementById('chi_allowed_extension_video').value.split(',').map(ext => ext.trim());
+
+	for (let ext of imageInput) {
+		if (!imageExtensions.includes(ext)) {
+			alert("Invalid image extension: " + ext);
+			return false;
+		}
+	}
+
+	for (let ext of videoInput) {
+		if (!videoExtensions.includes(ext)) {
+			alert("Invalid video extension: " + ext);
+			return false;
+		}
+	}
+
+	return true;
+}
+</script>
 {% endif %}
 
 {% if S_SELECT_FORUMS %}
-<table cellspacing="1">
-	<thead>
-		<tr>
-			<th>{{ lang('ACP_CHI_FORUMNAME') }}</th>
-			<th>{{ lang('CHI_LOGO') }}</th>
-			<th>{{ lang('CHI_BACKGROUND') }}</th>
-			<th>{{ lang('ACTION') }}</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for customheaderimages_forum in loops.customheaderimages_forum %}
-			{% if customheaderimages_forum.S_ROW_COUNT is even %}<tr class="row1">{% else %}<tr class="row2">{% endif %}
-			<td>{{ customheaderimages_forum.FORUMNAME }} </td>
-			<td>{{ customheaderimages_forum.LOGO }} </td>
-			<td>{{ customheaderimages_forum.BACKGROUND }}</td>
-			<td>&nbsp;<a href="{{ customheaderimages_forum.U_EDIT }}">{{ ICON_EDIT }}</a> <a href="{{ customheaderimages_forum.U_DEL }}">{{ ICON_DELETE }}</a>&nbsp;</td>
-		</tr>
-		{% else %}
-		<tr class="row3">
-			<td colspan="4">{{ lang('ACP_NO_ITEMS') }}</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
+<div class="chi_select_forums">
+	<div class="forum-header">
+		<div class="forum-column">{{ lang('ACP_CHI_FORUMNAME') }}</div>
+		<div class="forum-column">{{ lang('CHI_LOGO') }}</div>
+		<div class="forum-column">{{ lang('CHI_BACKGROUND') }}</div>
+		<div class="forum-column">{{ lang('ACTION') }}</div>
+	</div>
+	{% for customheaderimages_forum in loops.customheaderimages_forum %}
+		<div class="forum-row {% if customheaderimages_forum.S_ROW_COUNT is even %}row1{% else %}row2{% endif %}">
+			<div class="forum-column">{{ customheaderimages_forum.FORUMNAME }}</div>
+			<div class="forum-column">{{ customheaderimages_forum.LOGO }}</div>
+			<div class="forum-column">{{ customheaderimages_forum.BACKGROUND }}</div>
+			<div class="forum-column">
+				<a href="{{ customheaderimages_forum.U_EDIT }}">{{ ICON_EDIT }}</a>
+				<a href="{{ customheaderimages_forum.U_DEL }}">{{ ICON_DELETE }}</a>
+			</div>
+		</div>
+	{% else %}
+		<div class="forum-row row3">
+			<div class="forum-column" colspan="4">{{ lang('ACP_NO_ITEMS') }}</div>
+		</div>
+	{% endfor %}
+</div>
 <form method="post" action="{{ U_ACTION }}">
 	<fieldset>
 		<legend><i class="icon fa-cog fa-lg" aria-hidden="true"></i> {{ lang('MODE_TITLE') }} {{ lang('CHI_TITLE_FORUM') }}</legend>
 		<input type="hidden" name="id" value="{{ ID }}" />
 		<dl>
-			<dt><label for="forum">{{ lang('LOOK_UP_FORUM') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_FORUM_DESC') }}</span></dt>
+			<dt><label for="forum">{{ lang('LOOK_UP_FORUM') }}{{ lang('COLON') }}</label><br><span>{{ lang('CHI_FORUM_DESC') }}</span></dt>
 			<dd>
 				<select id="forum" name="forum_id" size="10">{{ S_FORUM_OPTIONS }}</select>
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="logoimage">{{ lang('CHI_LOGO') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_LOGO_DESC') }}</span><br /><em><span>{{ lang('LOGO_PATH_EXPLAIN') }}</span></em></dt>
+			<dt><label for="logoimage">{{ lang('CHI_LOGO') }}{{ lang('COLON') }}</label><br><span>{{ lang('CHI_LOGO_DESC') }}</span><br></dt>
 			<dd>
 				<select id="logoimage" name="logoimage">{{ S_LOGO_LIST }}</select>
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="backgroundimage">{{ lang('CHI_BACKGROUND') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_BACKGROUND_DESC') }}</span><br /><em><span>{{ lang('BACKGROUND_PATH_EXPLAIN') }}</span></em></dt>
+			<dt><label for="backgroundimage">{{ lang('CHI_BACKGROUND') }}{{ lang('COLON') }}</label><br><span>{{ lang('CHI_BACKGROUND_DESC') }}</span></dt>
 			<dd>
 				<select id="backgroundimage" name="backgroundimage">{{ S_BACKGROUND_LIST }}</select>
 			</dd>
@@ -120,65 +213,63 @@
 {% endif %}
 
 {% if S_SELECT_CUSTOMPAGE %}
-<table cellspacing="1">
-	<thead>
-		<tr>
-			<th>{{ lang('CHI_PAGENAME') }}</th>
-			<th>{{ lang('CHI_PATH') }}</th>
-			<th>{{ lang('CHI_QUERY') }}</th>
-			<th>{{ lang('CHI_LOGO') }}</th>
-			<th>{{ lang('CHI_BACKGROUND') }}</th>
-			<th>{{ lang('ACTION') }}</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for customheaderimages in loops.customheaderimages %}
-			{% if customheaderimages.S_ROW_COUNT is even %}<tr class="row1">{% else %}<tr class="row2">{% endif %}
-			<td>{{ customheaderimages.PAGENAME }} </td>
-			<td>{{ customheaderimages.PATH }} </td>
-			<td>{{ customheaderimages.QUERY }} </td>
-			<td>{{ customheaderimages.LOGO }} </td>
-			<td>{{ customheaderimages.BACKGROUND }}</td>
-			<td>&nbsp;<a href="{{ customheaderimages.U_EDIT }}">{{ ICON_EDIT }}</a> <a href="{{ customheaderimages.U_DEL }}">{{ ICON_DELETE }}</a>&nbsp;</td>
-		</tr>
-		{% else %}
-		<tr class="row3">
-			<td colspan="6">{{ lang('ACP_NO_ITEMS') }}</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
-
+<div class="chi_select_custompage">
+	<div class="custompage-header">
+		<div class="custompage-column">{{ lang('CHI_PAGENAME') }}</div>
+		<div class="custompage-column">{{ lang('CHI_PATH') }}</div>
+		<div class="custompage-column">{{ lang('CHI_QUERY') }}</div>
+		<div class="custompage-column">{{ lang('CHI_LOGO') }}</div>
+		<div class="custompage-column">{{ lang('CHI_BACKGROUND') }}</div>
+		<div class="custompage-column">{{ lang('ACTION') }}</div>
+	</div>
+	{% for customheaderimages in loops.customheaderimages %}
+		<div class="custompage-row {% if customheaderimages.S_ROW_COUNT is even %}row1{% else %}row2{% endif %}">
+			<div class="custompage-column">{{ customheaderimages.PAGENAME }}</div>
+			<div class="custompage-column">{{ customheaderimages.PATH }}</div>
+			<div class="custompage-column">{{ customheaderimages.QUERY }}</div>
+			<div class="custompage-column">{{ customheaderimages.LOGO }}</div>
+			<div class="custompage-column">{{ customheaderimages.BACKGROUND }}</div>
+			<div class="custompage-column">
+				<a href="{{ customheaderimages.U_EDIT }}">{{ ICON_EDIT }}</a>
+				<a href="{{ customheaderimages.U_DEL }}">{{ ICON_DELETE }}</a>
+			</div>
+		</div>
+	{% else %}
+		<div class="custompage-row row3">
+			<div class="custompage-column" colspan="6">{{ lang('ACP_NO_ITEMS') }}</div>
+		</div>
+	{% endfor %}
+</div>
 <form method="post" action="{{ U_ACTION }}">
 	<fieldset>
 		<legend><i class="icon fa-cog fa-lg" aria-hidden="true"></i> {{ lang('MODE_TITLE') }} {{ lang('CHI_TITLE_PAGE') }}</legend>
 		<input type="hidden" name="id" value="{{ ID }}" />
 		<dl>
-			<dt><label for="pagename">{{ lang('CHI_PAGENAME') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_PAGENAME_DESC') }}</span></dt>
+			<dt><label for="pagename">{{ lang('CHI_PAGENAME') }}{{ lang('COLON') }}</label><br><span>{{ lang('CHI_PAGENAME_DESC') }}</span></dt>
 			<dd>
 				<input type="text" id="pagename" name="pagename" size="35" value="{{ PAGENAME }}" />
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="custom_page_path">{{ lang('CHI_PATH') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_PATH_DESC') }}</span></dt>
+			<dt><label for="custom_page_path">{{ lang('CHI_PATH') }}{{ lang('COLON') }}</label><br><span>{{ lang('CHI_PATH_DESC') }}</span></dt>
 			<dd>
 				<input type="text" id="custom_page_path" name="custom_page_path" size="35" value="{{ PATH }}" />
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="custom_page_query">{{ lang('CHI_QUERY') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_QUERY_DESC') }}</span></dt>
+			<dt><label for="custom_page_query">{{ lang('CHI_QUERY') }}{{ lang('COLON') }}</label><br><span>{{ lang('CHI_QUERY_DESC') }}</span></dt>
 			<dd>
 				<input type="text" id="custom_page_query" name="custom_page_query" size="35" value="{{ QUERY }}" />
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="logoimage">{{ lang('CHI_LOGO') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_LOGO_DESC') }}</span><br /><em><span>{{ lang('LOGO_PATH_EXPLAIN') }}</span></em></dt>
+			<dt><label for="logoimage">{{ lang('CHI_LOGO') }}{{ lang('COLON') }}</label><br><span>{{ lang('CHI_LOGO_DESC') }}</span></dt>
 			<dd>
 				<select id="logoimage" name="logoimage">{{ S_LOGO_LIST }}</select>
 			</dd>
 		</dl>
 		<dl>
-			<dt><label for="backgroundimage">{{ lang('CHI_BACKGROUND') }}{{ lang('COLON') }}</label><br /><span>{{ lang('CHI_BACKGROUND_DESC') }}</span><br /><em><span>{{ lang('BACKGROUND_PATH_EXPLAIN') }}</span></em></dt>
+			<dt><label for="backgroundimage">{{ lang('CHI_BACKGROUND') }}{{ lang('COLON') }}</label><br><span>{{ lang('CHI_BACKGROUND_DESC') }}</span></dt>
 			<dd>
 				<select id="backgroundimage" name="backgroundimage">{{ S_BACKGROUND_LIST }}</select>
 			</dd>
@@ -191,7 +282,6 @@
 		{{ S_FORM_TOKEN }}
 	</fieldset>
 </form>
-<br />
 {% endif %}
 
 {% INCLUDE 'overall_footer.html' %}

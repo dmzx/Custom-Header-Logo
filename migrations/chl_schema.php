@@ -13,30 +13,30 @@ class chl_schema extends \phpbb\db\migration\migration
 {
 	public function update_schema()
 	{
-		return [
-			'add_tables'	=> [
-				$this->table_prefix . 'header_images'	=> [
-					'COLUMNS'	=> [
-						'page_header_image_id' 	=> ['UINT', null, 'auto_increment'],
-						'page_name' 			=> ['VCHAR', ''],
-						'forum_id' 				=> ['UINT', 0],
-						'page_logo' 			=> ['VCHAR', ''],
-						'page_background_logo' 	=> ['VCHAR', ''],
-						'page_query' 			=> ['VCHAR', ''],
-						'page_path' 			=> ['VCHAR', ''],
-					],
+		return array(
+			'add_tables'	=> array(
+				$this->table_prefix . 'header_images'	=> array(
+					'COLUMNS'	=> array(
+						'page_header_image_id' 	=> array('UINT', null, 'auto_increment'),
+						'page_name' 			=> array('VCHAR', ''),
+						'forum_id' 				=> array('UINT', 0),
+						'page_logo' 			=> array('VCHAR', ''),
+						'page_background_logo' 	=> array('VCHAR', ''),
+						'page_query' 			=> array('VCHAR', ''),
+						'page_path' 			=> array('VCHAR', ''),
+					),
 					'PRIMARY_KEY'	=> 'page_header_image_id',
-				],
-			],
-		];
+				),
+			),
+		);
 	}
 
 	public function revert_schema()
 	{
-		return [
-			'drop_tables' => [
+		return array(
+			'drop_tables' => array(
 				$this->table_prefix . 'header_images',
-			],
-		];
+			),
+		);
 	}
 }

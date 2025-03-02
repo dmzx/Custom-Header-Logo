@@ -96,8 +96,8 @@ class listener implements EventSubscriberInterface
 					$result = $this->db->sql_query($sql, 60);
 					$forum_logo = $this->db->sql_fetchrow($result);
 					$this->db->sql_freeresult($result);
-					$site_logo_custom = $forum_logo['page_logo'];
-					$header_background_custom = $forum_logo['page_background_logo'];
+					$site_logo_custom = $forum_logo['page_logo'] ?? '';
+					$header_background_custom = $forum_logo['page_background_logo'] ?? '';
 				}
 
 				// Are we on a page where we defined a logo and/or header background image?
@@ -119,6 +119,12 @@ class listener implements EventSubscriberInterface
 						{
 							$site_logo_custom = $row['page_logo'];
 							$header_background_custom = $row['page_background_logo'];
+
+							if ($this->config['chi_disable_site_info'] == true)
+							{
+								$this->template->assign_var('SITENAME', '');
+								$this->template->assign_var('SITE_DESCRIPTION', '');
+							}
 							break;
 						}
 					}

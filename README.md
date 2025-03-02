@@ -1,7 +1,5 @@
 # Custom Header Logo Extension
 
-[![Build Status](https://github.com/dmzx/Custom-Header-Logo/workflows/Tests/badge.svg)](https://github.com/phpbb-extensions/dmzx/Custom-Header-Logo)
-
 ## Install
 
 1. Download the latest release.

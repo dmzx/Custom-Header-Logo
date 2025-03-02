@@ -13,15 +13,15 @@ class chl_v101 extends \phpbb\db\migration\migration
 {
 	static public function depends_on()
 	{
-		return [
+		return array(
 			'\dmzx\chl\migrations\chl_data',
-		];
+		);
 	}
 
 	public function update_data()
 	{
-		return [
-			['config.update', ['chl_version', '1.0.1']],
-		];
+		return array(
+			array('config.update', array('chl_version', '1.0.1')),
+		);
 	}
 }

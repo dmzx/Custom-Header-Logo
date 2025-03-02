@@ -1,8 +1,8 @@
 imports:
-    - { resource: 'tables.yml' }
+    - { resource: tables.yml }
 services:
     dmzx.chl.listener:
-        class: 'dmzx\chl\event\listener'
+        class: dmzx\chl\event\listener
         arguments:
             - '@config'
             - '@template'
@@ -12,9 +12,9 @@ services:
             - '%core.php_ext%'
             - '%dmzx.chl.table.header_images%'
         tags:
-            - { name: 'event.listener' }
+            - { name: event.listener }
     dmzx.chl.admin.controller:
-        class: 'dmzx\chl\controller\admin_controller'
+        class: dmzx\chl\controller\admin_controller
         arguments:
             - '@config'
             - '@template'
@@ -22,6 +22,7 @@ services:
             - '@dbal.conn'
             - '@request'
             - '@log'
+            - '@path_helper'
             - '%core.root_path%'
             - '%core.php_ext%'
             - '%dmzx.chl.table.header_images%'

@@ -13,23 +13,23 @@ class chl_module extends \phpbb\db\migration\migration
 {
 	public function update_data()
 	{
-		return [
+		return array(
 			//Add config
-			['config.add', ['chi_enable', 0]],
-			['config.add', ['chi_enable_guests', 0]],
+			array('config.add', array('chi_enable', 0)),
+			array('config.add', array('chi_enable_guests', 0)),
 
 			//Add module
-			['module.add', ['acp', 'ACP_CAT_DOT_MODS', 'ACP_CHI_TITLE']],
-			['module.add', [
-				'acp', 'ACP_CHI_TITLE', [
+			array('module.add', array('acp', 'ACP_CAT_DOT_MODS', 'ACP_CHI_TITLE')),
+			array('module.add', array(
+				'acp', 'ACP_CHI_TITLE', array(
 					'module_basename'	=> '\dmzx\chl\acp\acp_chl_module',
-					'modes'	=> [
+					'modes'	=> array(
 						'settings',
 						'forums',
 						'pages'
-					],
-				],
-			]],
-		];
+					),
+				),
+			)),
+		);
 	}
 }

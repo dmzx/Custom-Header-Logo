@@ -1,0 +1,83 @@
+.chi-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.chi-container fieldset {
+    width: 48%;
+    box-sizing: border-box;
+}
+
+.chi-container fieldset legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.submit-buttons {
+    text-align: center;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .chi-container fieldset {
+        width: 100%;
+    }
+}
+
+.chi_select_forums {
+	display: flex;
+	flex-direction: column;
+}
+
+.forum-header, .forum-row {
+	display: flex;
+}
+
+.forum-column {
+	flex: 1;
+	padding: 10px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+.row1 {
+	background-color: #f9f9f9;
+}
+
+.row2 {
+	background-color: #e9e9e9;
+}
+
+.row3 {
+	background-color: #d9d9d9;
+	text-align: center;
+}
+
+@media (max-width: 768px) {
+	.forum-header, .forum-row {
+		flex-direction: column;
+	}
+}
+
+.chi_select_custompage {
+	display: flex;
+	flex-direction: column;
+}
+
+.custompage-header, .custompage-row {
+	display: flex;
+}
+
+.custompage-column {
+	flex: 1;
+	padding: 10px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+	.custompage-header, .custompage-row {
+		flex-direction: column;
+	}
+}

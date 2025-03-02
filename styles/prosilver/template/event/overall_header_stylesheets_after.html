@@ -1,33 +1,34 @@
 {% if SITE_BG_IMG and S_CHI_ENABLED %}
-<style type="text/css">
+<style>
 .headerbar {
 	background:url("{{ SITE_BG_IMG }}") no-repeat;
 	background-size: cover;
 }
-</style>
-{% endif %}
 
-{% if SITE_LOGO_IMG and S_CHI_ENABLED %}
-<style type="text/css">
-span.site_logo {
-	background:url("{{ SITE_LOGO_IMG }}") no-repeat;
-	background-position: 0% 0%;
-	max-width: 100%;
-	width: {{ CHI_WIDTH_SET }}px;
-	height: {{ CHI_HEIGHT_SET }}px;
+.headerbar {
+	position: relative;
+	overflow: hidden;
+	height: auto;
 }
 
-@media only screen and (max-width: 750px), only screen and (max-device-width: 750px) {
-	span.site_logo {
-		background:url("{{ SITE_LOGO_IMG }}") no-repeat;
-		background-position: 0% 0%;
-		max-width: 100%;
-		background-size: 80%;
-		background-position: center center;
-	}
+.headerbar .video_chl {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.site-description, .search-header {
+	position: relative;
+	z-index: 1;
+}
+
+@media all and (min-width: 350px) and (max-width: 750px) {
 
 	.headerbar {
-		 height: 52px !important;
+		height: 52px !important;
 	}
 
 	.logo {
@@ -45,26 +46,85 @@ span.site_logo {
 	}
 }
 
-@media only screen and (max-width: 850px), only screen and (max-device-width: 850px) {
-	span.site_logo {
-		background:url("{{ SITE_LOGO_IMG }}") no-repeat;
-		background-position: 0% 0%;
-		max-width: 100%;
-		background-size: 80%;
-		background-position: center center;
-	}
+@media all and (min-width: 350px) and (max-width: 850px) {
 
 	.site-description h1, .site-description p {
 		display: none;
 	}
 
 	.headerbar {
-		 height: 52px !important;
+		height: 52px !important;
 	}
 
 	.site-description p, .search-header {
 		display: none;
 	}
 }
+
 </style>
+{% endif %}
+
+{% if SITE_LOGO_IMG and S_CHI_ENABLED %}
+<style>
+span.site_logo {
+	background: url("{{ SITE_LOGO_IMG }}") no-repeat;
+	background-position: 0% 0%;
+	max-width: 100%;
+	width: {{ CHI_WIDTH_SET }}px;
+	height: {{ CHI_HEIGHT_SET }}px;
+}
+
+@media all and (min-width: 350px) and (max-width: 750px) {
+
+	span.site_logo {
+		background: url("{{ SITE_LOGO_IMG }}") no-repeat;
+		background-position: 0% 0%;
+		max-width: 100%;
+		background-size: 80%;
+		background-position: center center;
+	}
+}
+
+@media all and (min-width: 350px) and (max-width: 850px) {
+	span.site_logo {
+		background: url("{{ SITE_LOGO_IMG }}") no-repeat;
+		background-position: 0% 0%;
+		max-width: 100%;
+		background-size: 80%;
+		background-position: center center;
+		margin: -10px;
+	}
+
+}
+</style>
+{% endif %}
+
+{% if S_CHI_ENABLED %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+	var siteLogoImg = "{{ SITE_BG_IMG }}";
+	var videoExtensions = ["mp4", "mov", "wmv", "avi"];
+	var siteLogoElement = document.querySelector("span.site_logo");
+
+	if (siteLogoElement) {
+		var fileExtension = siteLogoImg.split('.').pop().toLowerCase();
+		if (videoExtensions.includes(fileExtension)) {
+			var videoElement = document.createElement("video");
+			videoElement.src = siteLogoImg;
+			videoElement.setAttribute("autoplay", "");
+			videoElement.setAttribute("loop", "");
+			videoElement.setAttribute("muted", "");
+			videoElement.classList.add("video_chl");
+
+			var headerbarElement = document.querySelector(".headerbar");
+
+			// Append the video element to the headerbar
+			headerbarElement.appendChild(videoElement);
+
+			// Make the video full width and height
+			headerbarElement.style.height = "{{ CHI_HEIGHT_SET }}px";
+		}
+	}
+});
+</script>
 {% endif %}
